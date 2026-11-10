@@ -33,7 +33,7 @@ Tasks tagged `(from NN)` remain planned until their delivery task lands; remove 
 ## Verifying your work
 
 Run `mise run check` before reporting a task complete and paste its output. If a test fails, fix the code rather than weakening the test.
-Until tasks 02–03 make checks runnable, run `git diff --check`, verify changed documentation and links, and report unavailable checks explicitly. Agent evals arrive in task 06; report their absence rather than claiming a pass.
+Until task 03 makes `check` runnable, verify the available subset: `mise run setup`, `mise run run`, and `mise exec -- uv lock --check`; for documentation changes, check whitespace and links. Report unavailable checks explicitly. Agent evals arrive in task 06.
 
 ## Conventions
 
@@ -58,10 +58,12 @@ Until tasks 02–03 make checks runnable, run `git diff --check`, verify changed
 ## Active work
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
+Task 02 is `in review` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2), targeting `dev`; human review and merge are pending.
+When resuming task 02 or starting task 03, read the [session handoff](intent/0001-python-starter-baseline/handoff.md). Start task 03 after PR #2 merges.
 
 ## Git conventions
 
-- One task per short-lived branch/PR from `main`; make atomic commits, review staged changes, and commit only task-owned files.
+- One task per short-lived branch/PR from the requested base (default `main`); make atomic commits, review staged changes, and commit only task-owned files.
 - Never use `--no-verify`, force-push `main`, or disable Claude Code hooks.
 - Follow `REVIEW.md`: independent agent review, then human code-owner approval; only eligible report PRs use the deterministic merge exception.
 - Keep changes within the assigned task; include acceptance evidence in the PR. Regenerate tool-owned files with their tool.

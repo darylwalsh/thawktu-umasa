@@ -93,6 +93,13 @@ All commands exited 0. Version checks returned Python 3.15.2 and uv 0.13.7.
 The runtime proof used `mise exec -- uv run python -c ...`; dependency resolution
 and installation selected the versions committed in `uv.lock` from public PyPI.
 
+A second fresh clone of implementation commit
+[`2e5e6d7`](https://github.com/darylwalsh/thawktu-umasa/commit/2e5e6d7367f254df03b0ed2850b095030329861c)
+passed the same commands and assertions with a new `.venv`, reusing only the
+isolated tool/package caches populated by the first test. Its tracked tree also
+remained clean. This verifies the committed implementation in addition to the
+initial empty-cache provisioning proof.
+
 ## Missing-interpreter proof amendment
 
 Task 02's literal PATH-only negative step cannot fail with the required absolute

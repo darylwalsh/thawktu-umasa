@@ -137,3 +137,8 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   then passed setup, demo execution, locked sync, lock verification, model/runtime
   assertions, and the negative fixtures. `check` remains pending task 03;
   agent evals remain pending task 06.
+- Task 02 is awaiting human review in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2),
+  targeting `dev`. Its implementation commit is `2e5e6d7`; a separate committed-tree
+  clone also passed the available verification subset.
+- Session-close context and task 03 entry conditions are in [handoff.md](handoff.md).
+  Keep task 02 `in review` until merge; start task 03 afterward from a base containing it.
