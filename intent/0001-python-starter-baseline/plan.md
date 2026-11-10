@@ -61,8 +61,8 @@ Decisions D0–D21 and open questions Q10–Q21 are in
 
 | Phase | Outcome | Task | Branch | Status |
 | --- | --- | --- | --- | --- |
-| 1. Foundation | Agent context, repo skeleton, ADR habit | [`01`](tasks/01-agents-md-and-skeleton.md) | `docs/agents-md` | in review |
-| | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `build/toolchain` | todo |
+| 1. Foundation | Agent context, repo skeleton, ADR habit | [`01`](tasks/01-agents-md-and-skeleton.md) | `docs/agents-md` | done |
+| | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | in review |
 | | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `build/quality` | todo |
 | | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | todo |
 | 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `ci/pipeline` | todo |
@@ -122,5 +122,23 @@ taste. The task that needs each one stops and asks if it isn't done yet.
 
 ## Current run
 
-Not started. Record each task's merged PR link, pins and surprises here as
-it completes, the same way the TS starter's plan does.
+- Task 01 merged in [PR #1](https://github.com/darylwalsh/thawktu-umasa/pull/1).
+- 2026-11-10, task 02: continue on the existing `task-02-mise-uv` branch.
+  User Prompt 02 requests a PR into `dev`, overriding the default `main` convention.
+  Task 01 is already merged; this is not stacked work.
+- Pins: Python 3.15.2, uv 0.13.7, uv_build 0.13.7, pydantic 2.14.3 and
+  pydantic-core 2.50.4. Q10 is answered by D22; see the
+  [task 02 evidence](evidence/02-toolchain.md).
+- D23 amends the task 02 PATH-only negative proof: an absolute `UV_PYTHON`
+  continues to work with Python removed from PATH. Isolated missing-executable
+  and unavailable-version fixtures instead verify binding failure and download
+  prevention. No host interpreter was moved or modified.
+- A fresh staged-tree clone installed its own pinned tools using empty caches,
+  then passed setup, demo execution, locked sync, lock verification, model/runtime
+  assertions, and the negative fixtures. `check` remains pending task 03;
+  agent evals remain pending task 06.
+- Task 02 is awaiting human review in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2),
+  targeting `dev`. Its implementation commit is `2e5e6d7`; a separate committed-tree
+  clone also passed the available verification subset.
+- Session-close context and task 03 entry conditions are in [handoff.md](handoff.md).
+  Keep task 02 `in review` until merge; start task 03 afterward from a base containing it.
