@@ -1,0 +1,129 @@
+lock` [​](#mise-lock)
+
+- **Usage:** `mise lock [FLAGS] [TOOL]…`
+- **Effect:** modifies state
+- **Source code:** [`src/cli/lock.rs`](https://github.com/jdx/mise/blob/main/src/cli/lock.rs)
+
+Create or refresh lockfile versions, checksums, and download URLs
+
+Operates on the current config root, including tools declared by tasks. Existing matching locked versions are preserved unless `--bump` re-resolves their requests. This command does not install tools; `--dry-run` previews changes.
+
+`mise lock TOOL@VERSION` locks that exact version. When the version falls outside the configured request, such as `tiny@3.0.1` with `tiny = "2"`, mise also updates the request in mise.toml to match.
+
+## Arguments [​](#arguments)
+
+- **`[TOOL]…`** — Tools to lock, such as `node python`; defaults to every configured tool and every tool a task needs
+
+  Use `tool@version` to lock an exact version. If it falls outside the configured request, mise.toml is updated to match.
+
+## Flags [​](#flags)
+
+- **`-g --global`** — Lock only the global and system config lockfiles
+
+  These are \~/.config/mise/mise.lock and the system config's lockfile. By default, only the current project's config root is locked.
+- **`-j --jobs <JOBS>`** — How many jobs to run in parallel; defaults to the `jobs` setting
+
+  Values below 1 are treated as 1.
+
+  **Environment Variable:** `MISE_JOBS`
+- **`-n --dry-run`** — Show what would change, without writing anything
+- **`-p --platform <PLATFORM>`** — Platforms to lock, comma-separated, such as `linux-x64,macos-arm64`
+
+  Defaults to the `lockfile_platforms` setting plus the current platform when that setting is configured, else the platforms already in the lockfile, else a common set for a new lockfile.
+- **`--bump`** — Re-resolve version requests against the latest available versions
+
+  By default, `mise lock` refreshes metadata for the currently locked versions. With this flag, requests such as "latest", "lts", or prefixes such as "24" are re-resolved against the latest matching remote versions, so the lockfile advances without installing anything. `--bump` never modifies config files: exact versions resolve to themselves and stay unchanged (use `mise upgrade --bump` to rewrite pins in mise.toml). If the remote versions cannot be fetched, it fails rather than keep the locked version.
+- **`--json`** — Output version changes as JSON
+
+  Prints an array of objects describing lockfile version changes: name, backend, lockfile, old\_versions, new\_versions. Version lists keep config/lockfile order; they are not sorted. Only version-level changes are reported: checksum and URL refreshes for unchanged versions produce no entries, so `mise lock --json` prints `[]` when no version changed, even though it still updates the lockfile. Suppresses the human-readable output. Combine with `--dry-run` to detect available updates without writing the lockfile.
+- **`--local`** — Update mise.local.lock, for tools in mise.local.toml, instead of mise.lock
+- **`--minimum-release-age <AGE>`** — Only lock versions released before a date or at least a duration ago
+
+  Takes a date such as `2024-06-01` or a duration such as `90d` or `1y`. Overrides the `minimum_release_age` setting and tool option. It filters only requests that are not exact, such as "24" or "latest"; exact versions such as "24.11.0" are not filtered. Existing matching lockfile entries are kept; this flag alone does not downgrade them.
+- **`--upgrade`** — Upgrade lockfiles to the latest format
+
+  mise keeps an existing lockfile at its format version during normal updates, so collaborators on an older mise can still read it. This flag rewrites it in the newest format, which adds request bindings, dependency-graph sidecars, and packslip repository IDs. It processes every configured tool and cannot be combined with tool arguments. See <https://mise.jdx.dev/dev-tools/mise-lock-reference.html#format-versions>.
+- **`--sidecars`** — List native dependency sidecars instead of updating lockfiles
+
+  Backends such as npm and pypi keep a tool's locked dependency graph in a sidecar directory next to mise.lock; see <https://mise.jdx.dev/dev-tools/mise-lock-reference.html#native-dependency-sidecars>. For each existing lockfile in scope, prints the sidecar directory mise keeps its dependency graphs in and every sidecar directory the lockfile references. Nothing is resolved, installed, or written. Paths are relative to the current directory when they are inside it, and absolute otherwise, such as the sidecars of a symlinked lockfile. Combine with `--json` for machine-readable output, or with `--local` and `--global` to choose the lockfiles.
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+Create or refresh the project lockfile
+
+```
+mise lock
+```
+
+Refresh only node and python
+
+```
+mise lock node python
+```
+
+Lock an exact version; mise.toml keeps a request such as "24"
+
+```
+mise lock node@24.11.0
+```
+
+Lock only the linux-x64 platform
+
+```
+mise lock --platform linux-x64
+```
+
+Show what would change
+
+```
+mise lock --dry-run
+```
+
+Re-resolve requests such as "latest" or "24" to the latest matching versions
+
+```
+mise lock --bump
+```
+
+List available updates as JSON without writing
+
+```
+mise lock --bump --dry-run --json
+```
+
+Lock versions released before 2024-01-01 for requests that are not exact
+
+```
+mise lock --minimum-release-age 2024-01-01
+```
+
+Update mise.local.lock
+
+```
+mise lock --local
+```
+
+Update only the global lockfiles
+
+```
+mise lock --global
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Lockfiles and strict installation](https://mise.jdx.dev/dev-tools/mise-lock.html).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/lock.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise link](https://mise.jdx.dev/cli/link.html)
+
+[Next pagemise ls](https://mise.jdx.dev/cli/ls.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)

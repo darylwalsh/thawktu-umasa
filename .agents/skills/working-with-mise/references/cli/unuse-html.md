@@ -1,0 +1,69 @@
+unuse` [​](#mise-unuse)
+
+- **Usage:** `mise unuse [FLAGS] <INSTALLED_TOOL@VERSION>…`
+- **Aliases:** `rm`, `remove`
+- **Effect:** destructive — may delete or irreversibly overwrite
+- **Source code:** [`src/cli/unuse.rs`](https://github.com/jdx/mise/blob/main/src/cli/unuse.rs)
+
+Remove tool requests from config files and prune unused installations
+
+Without `--path`, `--global`, or `--env`, mise edits the first loaded config that declares one of the tools; in your home directory it edits the global config. A version argument matches the configured request literally: to remove `node = "20"`, use `mise unuse node@20`, not the installed version it resolved to. Omit the version to remove every request for that tool from the selected file.
+
+The installed versions the arguments name are pruned only when no remaining tracked config or tool stub needs them; mise says which file keeps one. A tool named without a version has all of its unused versions pruned. Pass `--no-prune` to edit the config and keep the installations. To remove an installation without editing config, use `mise uninstall`.
+
+## Arguments [​](#arguments)
+
+- **`<INSTALLED_TOOL@VERSION>…`** — Tools to remove from the config, with the version written as in the config
+
+## Flags [​](#flags)
+
+- **`-e --env <ENV>`** — Edit mise.\<ENV>.toml in the current directory, or .mise.\<ENV>.toml if that exists
+
+  Not the same as the global -E, which only chooses which config files are loaded.
+- **`-g --global`** — Use the global config file ( `~/.config/mise/config.toml`) instead of the local one
+- **`-p --path <PATH>`** — Edit this config file, or the config file in this directory
+
+  **Aliases:** `--file`
+- **`--override`** — Write to the global override file, `config.override.toml`
+
+  The override file outranks all project config. With `--env`, writes `config.<ENV>.override.toml` instead. See <https://mise.jdx.dev/configuration.html#override-file>
+- **`--no-prune`** — Do not also prune the installed version
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+Remove node@22.0.0 from mise.toml and uninstall it if nothing else uses it
+
+```
+mise unuse node@22.0.0
+```
+
+Remove it from the global config instead
+
+```
+mise unuse -g node@22.0.0
+```
+
+Remove the node@20 request from mise.staging.toml
+
+```
+mise unuse --env staging node@20
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Removing tools](https://mise.jdx.dev/dev-tools/#remove-tools).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/unuse.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise untrust](https://mise.jdx.dev/cli/untrust.html)
+
+[Next pagemise upgrade](https://mise.jdx.dev/cli/upgrade.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)

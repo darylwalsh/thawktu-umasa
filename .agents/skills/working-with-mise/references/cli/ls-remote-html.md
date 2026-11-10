@@ -1,0 +1,77 @@
+ls-remote` [​](#mise-ls-remote)
+
+- **Usage:** `mise ls-remote [FLAGS] [TOOL@VERSION] [PREFIX]`
+- **Aliases:** `list-all`, `list-remote`
+- **Effect:** read-only
+- **Source code:** [`src/cli/ls_remote.rs`](https://github.com/jdx/mise/blob/main/src/cli/ls_remote.rs)
+
+List tool versions available to install
+
+Results may be cached; run `mise cache clear TOOL` to refresh one tool before querying it again. Version formats and ordering are backend-specific.
+
+## Arguments [​](#arguments)
+
+- **`[TOOL@VERSION]`** — Tool to get versions for
+- **`[PREFIX]`** — Version prefix to filter by; same as `TOOL@PREFIX`
+
+## Flags [​](#flags)
+
+- **`--all`** — List available versions for every tool mise currently knows about
+- **`--minimum-release-age <AGE>`** — Only show versions released before a date or at least a duration ago
+
+  Takes a date such as `2024-06-01` or a duration such as `90d` or `1y`. Overrides the `minimum_release_age` setting and tool option.
+- **`-J --json`** — Output in JSON format, with metadata such as `created_at` when available
+- **`--no-versions-host`** — Fetch versions from the tool's upstream instead of mise's version mirror
+
+  Same as `use_versions_host = false` for this command.
+- **`--prerelease`** — Include prerelease versions
+
+  Works for backends that report prerelease metadata or detect prereleases by pattern. Same as MISE\_PRERELEASES=1 or the `prereleases` setting, for this command only.
+- **`--strict-metadata`** — Exit with an error when release metadata cannot be fetched
+
+  Without it, backends such as aqua and ruby fall back to a version list without release dates, or an empty one. Requires --json and --no-versions-host.
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+List every node version
+
+```
+mise ls-remote node
+```
+
+List node 24.x versions
+
+```
+mise ls-remote node@24
+```
+
+Skip versions released in the last 30 days
+
+```
+mise ls-remote node --minimum-release-age 30d
+```
+
+Include release dates, as JSON
+
+```
+mise ls-remote github:cli/cli --json
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Version requests](https://mise.jdx.dev/dev-tools/versions.html).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/ls-remote.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise ls](https://mise.jdx.dev/cli/ls.html)
+
+[Next pagemise lsp](https://mise.jdx.dev/cli/lsp.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)

@@ -1,0 +1,45 @@
+reshim` [​](#mise-reshim)
+
+- **Usage:** `mise reshim [-f --force] [--system]`
+- **Effect:** modifies state
+- **Source code:** [`src/cli/reshim.rs`](https://github.com/jdx/mise/blob/main/src/cli/reshim.rs)
+
+Create shims for executables provided by installed tools
+
+Run this when an executable was added to an existing installation outside mise, for example after a language package manager installed a CLI globally. It rebuilds your shim directory (\~/.local/share/mise/shims by default). `--system` rebuilds the system shim directory used by `mise install --system`.
+
+Shims are created for all installed versions. When invoked, a shim picks the version to run from the current config. `--force` rebuilds mise-owned shims; it does not turn unrelated files into mise-owned shims. See <https://mise.jdx.dev/dev-tools/shims.html>
+
+## Flags [​](#flags)
+
+- **`-f --force`** — Rebuild all mise-owned shims
+- **`--system`** — Rebuild the system shims, for tools installed with `mise install --system`
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+Rebuild shims, then run node through its shim
+
+```
+mise reshim
+~/.local/share/mise/shims/node -v
+v24.11.0
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Shims](https://mise.jdx.dev/dev-tools/shims.html).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/reshim.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise registry](https://mise.jdx.dev/cli/registry.html)
+
+[Next pagemise run](https://mise.jdx.dev/cli/run.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)

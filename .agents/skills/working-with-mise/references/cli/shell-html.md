@@ -1,0 +1,68 @@
+shell` [​](#mise-shell)
+
+- **Usage:** `mise shell [FLAGS] [TOOL@VERSION]…`
+- **Aliases:** `sh`
+- **Effect:** read-only
+- **Source code:** [`src/cli/shell.rs`](https://github.com/jdx/mise/blob/main/src/cli/shell.rs)
+
+Set a tool version for the current shell session
+
+Installs the version if needed, then sets `MISE_<TOOL>_VERSION`, such as `MISE_NODE_VERSION`, to the resolved version in the current shell. That overrides config files until you close the shell or run `mise shell --unset <TOOL>`, or `mise shell --unset --all` to remove every version set this way. Requires `mise activate`: the shell function it defines applies the variable that this command prints.
+
+## Arguments [​](#arguments)
+
+- **`[TOOL@VERSION]…`** — Tools to set, such as node@20
+
+## Flags [​](#flags)
+
+- **`-j --jobs <JOBS>`** — Number of jobs to run in parallel (default: the `jobs` setting)
+
+  **Environment Variable:** `MISE_JOBS`
+- **`-u --unset`** — Remove a version set earlier with `mise shell`
+- **`--all`** — With `--unset`, remove every `MISE_<TOOL>_VERSION` in this shell
+
+  This includes any you exported yourself, not only those set by `mise shell`.
+- **`--raw`** — Connect the install commands' stdin, stdout, and stderr to the terminal
+
+  Implies `--jobs=1`.
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+Use node 20 in this shell
+
+```
+mise shell node@20
+node -v
+v20.19.5
+```
+
+Go back to the version the config requests
+
+```
+mise shell --unset node
+```
+
+Drop every version set with `mise shell` or `MISE_<TOOL>_VERSION`
+
+```
+mise shell --unset --all
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Shell setup](https://mise.jdx.dev/shell-setup.html).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/shell.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise settings unset](https://mise.jdx.dev/cli/settings/unset.html)
+
+[Next pagemise shell-alias](https://mise.jdx.dev/cli/shell-alias.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)

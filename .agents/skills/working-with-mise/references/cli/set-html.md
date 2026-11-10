@@ -1,0 +1,106 @@
+set` [​](#mise-set)
+
+- **Usage:** `mise set [FLAGS] [ENV_VAR]…`
+- **Aliases:** `ev`, `env-vars`
+- **Effect:** modifies state
+- **Source code:** [`src/cli/set.rs`](https://github.com/jdx/mise/blob/main/src/cli/set.rs)
+
+Set, show, or list environment variables in mise.toml
+
+`mise set KEY=VALUE` writes to the lowest-precedence TOML file in the nearest config directory (`mise.toml` rather than `mise.local.toml`), creating `mise.toml` in the current directory if there is none. Run in your home directory, it writes to the global config. `mise set KEY` prints one value, and `mise set` lists every variable with its source file. Use `--global`, `--file`, or `-E <env>` to write elsewhere. See <https://mise.jdx.dev/configuration.html#target-file-for-write-operations>
+
+## Arguments [​](#arguments)
+
+- **`[ENV_VAR]…`** — Environment variables to set, such as NODE\_ENV=production
+
+## Flags [​](#flags)
+
+- **`-E --env <ENV>`** — Write to mise.\<ENV>.toml in the current directory, or to .mise.\<ENV>.toml if that exists
+- **`-g --global`** — Set the environment variable in the global config file
+- **`--override`** — Set the environment variable in the global override file, `config.override.toml`
+
+  The override file outranks all project config. With `--env`, writes `config.<ENV>.override.toml` instead. See <https://mise.jdx.dev/configuration.html#override-file>
+- **`--age-encrypt`** — \[experimental] Encrypt the value with age before storing
+- **`--age-key-file <PATH>`** — \[experimental] Age identity file whose public keys to encrypt to
+
+  Without --age-recipient, --age-ssh-recipient, or --age-key-file, mise encrypts to the identities in the `age.key_file` setting (or \~/.config/mise/age.txt if it exists) and to \~/.ssh/id\_ed25519 and \~/.ssh/id\_rsa when they exist.
+- **`--age-recipient <RECIPIENT>`** — \[experimental] Age recipient (x25519 public key) for encryption
+
+  Can be used multiple times. Requires --age-encrypt.
+- **`--age-ssh-recipient <PATH_OR_PUBKEY>`** — \[experimental] SSH recipient (public key or path) for age encryption
+
+  Can be used multiple times. Requires --age-encrypt.
+- **`--file <FILE>`** — The TOML file to update
+
+  Can be a file or a directory. For a directory, mise uses the config file already in it, or creates one named by MISE\_DEFAULT\_CONFIG\_FILENAME (default `mise.toml`): [https://mise.jdx.dev/configuration/settings.html#default\_config\_filename](https://mise.jdx.dev/configuration/settings.html#default_config_filename) To move the global config file, set MISE\_GLOBAL\_CONFIG\_FILE: [https://mise.jdx.dev/configuration/settings.html#global\_config\_file](https://mise.jdx.dev/configuration/settings.html#global_config_file)
+
+  **Aliases:** `--path`
+- **`--no-redact`** — Show raw values instead of redacting secrets
+- **`--prompt`** — Prompt for environment variable values (input is masked only with --age-encrypt)
+- **`--stdin`** — Read the value from stdin, for multiline input
+
+  Pass a single key without a value; the value is read from stdin until EOF.
+- **`-h --help`** — Print help
+
+## Examples [​](#examples)
+
+Set NODE\_ENV in mise.toml
+
+```
+mise set NODE_ENV=production
+```
+
+Show one variable's value
+
+```
+mise set NODE_ENV
+production
+```
+
+List variables, their values, and their source files
+
+```
+mise set
+```
+
+Write the variable to mise.staging.toml
+
+```
+mise set -E staging NODE_ENV=staging
+```
+
+Prompt for the value; input is visible unless you add --age-encrypt
+
+```
+mise set --prompt PASSWORD
+```
+
+Read a multiline value from stdin
+
+```
+cat private.key | mise set --stdin MY_KEY
+```
+
+Prompt with hidden input and store the value encrypted with age (experimental)
+
+```
+mise set --age-encrypt --prompt API_KEY
+```
+
+## Related documentation [​](#related-documentation)
+
+- [Environment variables](https://mise.jdx.dev/environments/).
+- [All commands](https://mise.jdx.dev/cli/).
+- [Global flags and argument syntax](https://mise.jdx.dev/cli/#global-flags).
+
+[Edit this page](https://github.com/jdx/mise/edit/main/docs/cli/set.md)
+
+Last updated:
+
+Pager
+
+[Previous pagemise self-update](https://mise.jdx.dev/cli/self-update.html)
+
+[Next pagemise settings](https://mise.jdx.dev/cli/settings.html)
+
+MIT License·Copyright © 2026· [![](https://github.com/jdx.png?size=96)jdx.dev](https://jdx.dev)
