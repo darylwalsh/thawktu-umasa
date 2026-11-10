@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Secrets: plaintext never lands in git
+.env
+.env.*
+fnox.local.toml
+*.age.txt
+age.txt
+
+# ML / AI artifacts
+/data/
+/models/
+/outputs/
+/checkpoints/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+/mlruns/
+/wandb/
+/lightning_logs/
+.ipynb_checkpoints/
+
+# Agents: personal, uncommitted settings
+.claude/settings.local.json
+
+# Editors / OS
+.idea/
+.DS_Store

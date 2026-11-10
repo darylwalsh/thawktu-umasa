@@ -1,0 +1,46 @@
+# EditorConfig root
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# JavaScript and TypeScript
+[*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}]
+indent_style = space
+indent_size = 2
+
+# Python (PEP 8 standard requires 4 spaces)
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Markdown (disable trailing whitespace trimming so hard line breaks work)
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# JSON, YAML, and configuration files
+[*.{json,jsonc,yml,yaml,toml}]
+indent_style = space
+indent_size = 2
+
+# Shell scripts are usually 2 or 4 spaces. Pick one and be explicit.
+[*.{sh,bash,zsh}]
+indent_style = space
+indent_size = 2
+
+# Go uses tabs for indentation in source files.
+[*.go]
+indent_style = tab
+tab_width = 4
+
+# Makefiles require real tab characters for recipe lines.
+[Makefile]
+indent_style = tab
+tab_width = 4
