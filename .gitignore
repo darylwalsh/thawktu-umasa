@@ -43,3 +43,16 @@ age.txt
 # Editors / OS
 .idea/
 .DS_Store
+
+# Agents
+.agents/skills/
+.agents/skills/*
+.agent/prompts/
+.agent/prompts/*
+.agent/responses/
+.agent/responses/*
+.agent/attachments/
+.agent/attachments/*
+.codex/config.toml
+.specstory/
+.specstory/*
