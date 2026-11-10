@@ -34,14 +34,16 @@ inherit also get an ADR in `docs/decisions/`.
 | D21 | Agent workflows, `agent-evals` and the merge guard run only when repo variable `AGENTS_ENABLED == 'true'`. Repos created from the template stay green without Apps or secrets until they opt in. | 2026-10-24 | Design review 2026-10-24 |
 | D22 | Q10: choose Python **3.15.2**, uv **0.13.7**, and pydantic **2.14.3** (`>=2.14.3,<3`, exact in `uv.lock`); pydantic-core 2.50.4 has standard CPython 3.15 wheels on Linux x86_64/arm64 and macOS arm64. Pin `uv_build==0.13.7`. | 2026-11-10 | Task 02 [release and wheel evidence](evidence/02-toolchain.md#pins-and-q10) |
 | D23 | Use supported `python.uv_venv_auto = "source"`, an absolute mise `UV_PYTHON` executable, and downloads `never`; no `.python-version` is needed. Amend task 02's PATH-only failure proof: the absolute binding survives PATH removal, so separately test a missing bound executable and an unavailable version with empty search/managed directories. Both negative fixtures fail without downloading Python. | 2026-11-10 | Task 02 [wiring and proof amendment](evidence/02-toolchain.md#missing-interpreter-proof-amendment) |
+| D24 | Q11: select `E4`, `E7`, `E9`, `F`, `I`, `UP`, `B`, `SIM`, `RUF`, `S`; use a 95% statement/branch coverage floor against the measured 96% baseline. Tests alone ignore S101 (assertions) and S603 (fixed local interpreter/module subprocess). [Rule-family rationale](evidence/03-quality.md#q11-rules-and-coverage); inherited policy in [ADR 0001](../../docs/decisions/0001-python-quality-gate.md). | 2026-11-10 | Task 03 measurements and scope |
+| D25 | Q12: pin `pytest-socket==0.8.1` and enable `--disable-socket` globally; unexpected warnings are errors. The guard regression explicitly captures the plugin's expected warning and blocking exception. The guard covers Python sockets in the pytest process; local subprocess commands require review. | 2026-11-10 | Task 03 positive and negative socket proofs; [ADR 0001](../../docs/decisions/0001-python-quality-gate.md) |
 
 ## Open
 
 | ID | Question | Decided in | Answer |
 | --- | --- | --- | --- |
 | Q10 | Python 3.15 or 3.14? 3.15.0 shipped 2026-10-09; depends on pydantic-core wheels for 3.15 on all three platforms. | task 02 | Answered by D22/D23: Python 3.15.2; [wheel/support and interpreter proof](evidence/02-toolchain.md). |
-| Q11 | Exact Ruff rule selection and coverage `fail_under`. | task 03 | — |
-| Q12 | Network blocking in tests: conftest fixture or `pytest-socket`? | task 03 | — |
+| Q11 | Exact Ruff rule selection and coverage `fail_under`. | task 03 | Answered by D24: explicit rule families, measured 96% coverage, 95% floor. |
+| Q12 | Network blocking in tests: conftest fixture or `pytest-socket`? | task 03 | Answered by D25: pytest-socket with global socket disabling. |
 | Q13 | gh/gh-aw install method via mise, and the pinned gh-aw version. | task 06 | — |
 | Q14 | Claude model pin for each agent workflow (suggested start: a Sonnet-class model for review and the watch, a stronger model for the bug worker; revisit with month-one cost data). | task 06 | — |
 | Q15 | Does the pinned gh-aw pass `timezone` through on `schedule`? Expected yes (gh-aw PR #22018). Otherwise use the UTC fallback `0 7 * * 2`. | task 07 | — |
