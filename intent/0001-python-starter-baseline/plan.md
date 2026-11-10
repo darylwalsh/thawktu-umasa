@@ -62,8 +62,8 @@ Decisions D0–D21 and open questions Q10–Q21 are in
 | Phase | Outcome | Task | Branch | Status |
 | --- | --- | --- | --- | --- |
 | 1. Foundation | Agent context, repo skeleton, ADR habit | [`01`](tasks/01-agents-md-and-skeleton.md) | `docs/agents-md` | done |
-| | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | in review |
-| | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `build/quality` | todo |
+| | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | done |
+| | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `task-03-lint-type-test` | in progress |
 | | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | todo |
 | 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `ci/pipeline` | todo |
 | 3. Agents | gh-aw foundation, PR review agent, eval suite (Q13, Q14, Q17a, Q18) | [`06`](tasks/06-gh-aw-pr-review-evals.md) | `ci/pr-review` | todo |
@@ -137,8 +137,11 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   then passed setup, demo execution, locked sync, lock verification, model/runtime
   assertions, and the negative fixtures. `check` remains pending task 03;
   agent evals remain pending task 06.
-- Task 02 is awaiting human review in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2),
-  targeting `dev`. Its implementation commit is `2e5e6d7`; a separate committed-tree
-  clone also passed the available verification subset.
-- Session-close context and task 03 entry conditions are in [handoff.md](handoff.md).
-  Keep task 02 `in review` until merge; start task 03 afterward from a base containing it.
+- Task 02 merged into `dev` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2)
+  at `69b1133`. Task 03 starts from that merge on the existing
+  `task-03-lint-type-test` branch, targeting `dev` per User Prompt 03.
+- Task 03 implements the quality gate and answers Q11/Q12 with D24/D25.
+  See [quality-check evidence](evidence/03-quality.md) for the clean-clone run,
+  Pydantic misuse diagnostics, offline typing, and negative proofs.
+- The task 02 [handoff](handoff.md) is historical context. Hooks and secrets
+  remain task 04; CI remains task 05; the hosted agent eval suite remains task 06.

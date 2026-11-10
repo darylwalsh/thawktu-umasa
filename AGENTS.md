@@ -11,18 +11,18 @@ Tasks tagged `(from NN)` remain planned until their delivery task lands; remove 
 
 - `mise run setup` — sync locked dependencies; install hooks (from 04).
 - `mise run run` — run the demo package.
-- `mise run fmt` — format Python (from 03).
-- `mise run fmt:check` — check formatting (from 03).
-- `mise run lint` — lint Python (from 03).
-- `mise run lint:fix` — apply lint fixes (from 03).
-- `mise run typecheck` — run strict pyright (from 03).
-- `mise run test` — run pytest with coverage (from 03).
-- `mise run lock:check` — check lockfile freshness (from 03).
+- `mise run fmt` — format Python.
+- `mise run fmt:check` — check formatting.
+- `mise run lint` — lint Python.
+- `mise run lint:fix` — apply lint fixes.
+- `mise run typecheck` — run strict pyright.
+- `mise run test` — run pytest with coverage.
+- `mise run lock:check` — check lockfile freshness.
 - `mise run secrets` — scan history and tracked files (from 04).
 - `mise run secrets:check` — validate encrypted fnox values (from 04).
 - `mise run watchlist:check` — validate the watchlist (from 07).
 - `mise run report:check` — validate reports against facts (from 07).
-- `mise run check` — run the available quality checks (from 03); extended in 04 and 07.
+- `mise run check` — run format, lint, types, tests, then lock verification; extended in 04 and 07.
 - `mise run check:aw` — compile workflows and check generated drift (from 06).
 - `mise run evals` — evaluate agent configuration; requires agent credentials, separate from check (from 06).
 - `mise run commit` — create a guided conventional commit (from 04).
@@ -33,14 +33,14 @@ Tasks tagged `(from NN)` remain planned until their delivery task lands; remove 
 ## Verifying your work
 
 Run `mise run check` before reporting a task complete and paste its output. If a test fails, fix the code rather than weakening the test.
-Until task 03 makes `check` runnable, verify the available subset: `mise run setup`, `mise run run`, and `mise exec -- uv lock --check`; for documentation changes, check whitespace and links. Report unavailable checks explicitly. Agent evals arrive in task 06.
+For documentation changes, also check whitespace and links. Report unavailable checks explicitly. Agent evals arrive in task 06.
 
 ## Conventions
 
 - Follow `.editorconfig`: UTF-8, LF, final newline; Python uses four spaces, Markdown/TOML/YAML/JSON two.
 - Use `src/python_starter/`, strict typing, and annotated public functions; explain any `Any`.
 - Use `# pyright: ignore[ruleName]  # reason` and `# noqa: CODE  # reason`; never bare ignores. Record per-file ignore decisions in `decisions.md`.
-- Tests use `tests/test_*.py`, assert behavior, and make no network calls. Ruff, pyright, and pytest arrive in task 03.
+- Tests use `tests/test_*.py`, assert behavior, and make no network calls. Pytest disables sockets and treats unexpected warnings as errors; coverage must stay at least 95%.
 - Conventional Commits: `feat fix docs style refactor perf test build ci chore revert`; scopes optional.
 
 ## Invariants
@@ -58,8 +58,8 @@ Until task 03 makes `check` runnable, verify the available subset: `mise run set
 ## Active work
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
-Task 02 is `in review` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2), targeting `dev`; human review and merge are pending.
-When resuming task 02 or starting task 03, read the [session handoff](intent/0001-python-starter-baseline/handoff.md). Start task 03 after PR #2 merges.
+Task 02 merged into `dev` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2).
+Task 03 is implemented on `task-03-lint-type-test`, targeting `dev`; see the [quality-check evidence](intent/0001-python-starter-baseline/evidence/03-quality.md). Start task 04 after task 03 merges.
 
 ## Git conventions
 

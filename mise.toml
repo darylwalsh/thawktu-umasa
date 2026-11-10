@@ -17,3 +17,41 @@ run = "uv sync --locked"
 [tasks.run]
 description = "Print the starter package name and version"
 run = "uv run python -m python_starter"
+
+[tasks.fmt]
+description = "Format Python"
+run = "uv run --locked ruff format ."
+
+[tasks."fmt:check"]
+description = "Check Python formatting"
+run = "uv run --locked ruff format --check ."
+
+[tasks.lint]
+description = "Lint Python"
+run = "uv run --locked ruff check ."
+
+[tasks."lint:fix"]
+description = "Apply Python lint fixes"
+run = "uv run --locked ruff check --fix ."
+
+[tasks.typecheck]
+description = "Check Python types in strict mode"
+run = "uv run --locked pyright"
+
+[tasks.test]
+description = "Run tests with coverage and sockets disabled"
+run = "uv run --locked pytest"
+
+[tasks."lock:check"]
+description = "Check lockfile freshness"
+run = "uv lock --check"
+
+[tasks.check]
+description = "Run quality checks in order, stopping at the first failure"
+run = [
+  { task = "fmt:check" },
+  { task = "lint" },
+  { task = "typecheck" },
+  { task = "test" },
+  { task = "lock:check" },
+]
