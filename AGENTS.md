@@ -3,14 +3,14 @@
 ## Purpose
 
 A Python starter with pinned tooling, local/CI guardrails, and agent-maintained workflows.
-The accepted design is in `intent/0001-python-starter-baseline/`; task 01 adds documentation only.
+The accepted design is in `intent/0001-python-starter-baseline/`; the initial package and mise/uv toolchain are available.
 
 ## Commands
 
-Planned mise tasks below are unavailable until their delivery task lands; remove each `(from NN)` marker when implemented. See the active spec's Tasks section for details.
+Tasks tagged `(from NN)` remain planned until their delivery task lands; remove each marker when implemented. See the active spec's Tasks section for details.
 
-- `mise run setup` — sync locked dependencies (from 02); install hooks (from 04).
-- `mise run run` — run the demo package (from 02).
+- `mise run setup` — sync locked dependencies; install hooks (from 04).
+- `mise run run` — run the demo package.
 - `mise run fmt` — format Python (from 03).
 - `mise run fmt:check` — check formatting (from 03).
 - `mise run lint` — lint Python (from 03).

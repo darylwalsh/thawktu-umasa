@@ -32,12 +32,14 @@ inherit also get an ADR in `docs/decisions/`.
 | D19 | **Release PR, then tag:** `release.yml` runs `cz bump --files-only` plus changelog on a `release/vX.Y.Z` branch and opens a PR with the starter-bot App; `release-tag.yml` tags and creates the GitHub Release when that PR merges. Nothing pushes to `main` directly. | 2026-10-24 | Design review 2026-10-24 |
 | D20 | Compiled-workflow drift is checked by a separate `aw` CI job (`mise run check:aw`), not inside `mise run check`, so contributors and generated projects don't need gh or gh-aw. | 2026-10-24 | Design review 2026-10-24 |
 | D21 | Agent workflows, `agent-evals` and the merge guard run only when repo variable `AGENTS_ENABLED == 'true'`. Repos created from the template stay green without Apps or secrets until they opt in. | 2026-10-24 | Design review 2026-10-24 |
+| D22 | Q10: choose Python **3.15.2**, uv **0.13.7**, and pydantic **2.14.3** (`>=2.14.3,<3`, exact in `uv.lock`); pydantic-core 2.50.4 has standard CPython 3.15 wheels on Linux x86_64/arm64 and macOS arm64. Pin `uv_build==0.13.7`. | 2026-11-10 | Task 02 [release and wheel evidence](evidence/02-toolchain.md#pins-and-q10) |
+| D23 | Use supported `python.uv_venv_auto = "source"`, an absolute mise `UV_PYTHON` executable, and downloads `never`; no `.python-version` is needed. Amend task 02's PATH-only failure proof: the absolute binding survives PATH removal, so separately test a missing bound executable and an unavailable version with empty search/managed directories. Both negative fixtures fail without downloading Python. | 2026-11-10 | Task 02 [wiring and proof amendment](evidence/02-toolchain.md#missing-interpreter-proof-amendment) |
 
 ## Open
 
 | ID | Question | Decided in | Answer |
 | --- | --- | --- | --- |
-| Q10 | Python 3.15 or 3.14? 3.15.0 shipped 2026-10-09; depends on pydantic-core wheels for 3.15 on all three platforms. | task 02 | — |
+| Q10 | Python 3.15 or 3.14? 3.15.0 shipped 2026-10-09; depends on pydantic-core wheels for 3.15 on all three platforms. | task 02 | Answered by D22/D23: Python 3.15.2; [wheel/support and interpreter proof](evidence/02-toolchain.md). |
 | Q11 | Exact Ruff rule selection and coverage `fail_under`. | task 03 | — |
 | Q12 | Network blocking in tests: conftest fixture or `pytest-socket`? | task 03 | — |
 | Q13 | gh/gh-aw install method via mise, and the pinned gh-aw version. | task 06 | — |
