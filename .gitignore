@@ -9,13 +9,14 @@ build/
 # Tool caches
 .pytest_cache/
 .ruff_cache/
-.coverage
+.coverage*
 coverage.xml
 htmlcov/
 
 # Secrets: plaintext never lands in git
 .env
 .env.*
+mise.local.toml
 fnox.local.toml
 *.age.txt
 age.txt
@@ -42,3 +43,17 @@ age.txt
 # Editors / OS
 .idea/
 .DS_Store
+
+# Agents
+.agents/skills/
+.agents/skills/*
+.agent/prompts/
+.agent/prompts/*
+.agent/responses/
+.agent/responses/*
+.agent/attachments/
+.agent/attachments/*
+.codex/config.toml
+.specstory/
+.specstory/*
+skills-lock.json
