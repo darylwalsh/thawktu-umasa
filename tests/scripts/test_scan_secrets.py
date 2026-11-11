@@ -32,7 +32,8 @@ def test_scans_history_and_tracked_worktree(
     def run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
         calls.append(args)
         if args[1] == "dir":
-            snapshot = Path(args[2])
+            assert args[2] == "."  # Keep root-relative names for the fnox allowlist.
+            snapshot = Path(str(kwargs["cwd"]))
             assert (
                 snapshot / "dir/space name.txt"
             ).read_text() == "current working content"

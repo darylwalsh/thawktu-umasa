@@ -43,7 +43,7 @@ def main() -> int:
             else:
                 shutil.copyfile(source, target)
         return subprocess.run(  # noqa: S603  # Scan a private tracked-file snapshot with fixed options.
-            [gitleaks, "dir", directory, *options], check=False
+            [gitleaks, "dir", ".", *options], cwd=directory, check=False
         ).returncode
 
 

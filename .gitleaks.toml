@@ -3,7 +3,10 @@ title = "Python starter secret scanning"
 [extend]
 useDefault = true
 
-[[allowlists]]
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
 # fnox stores base64-encoded age envelopes, not plaintext credentials.
 # Both the exact path and the encrypted payload prefix must match.
 description = "Age ciphertext in the shared fnox configuration"
