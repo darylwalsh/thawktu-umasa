@@ -1,0 +1,13 @@
+title = "Python starter secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+# fnox stores base64-encoded age envelopes, not plaintext credentials.
+# Both the exact path and the encrypted payload prefix must match.
+description = "Age ciphertext in the shared fnox configuration"
+condition = "AND"
+paths = ['''^fnox\.toml$''']
+regexTarget = "secret"
+regexes = ['''^YWdlLWVuY3J5cHRpb24ub3JnL3Yx''']

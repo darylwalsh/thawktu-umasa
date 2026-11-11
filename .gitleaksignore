@@ -1,0 +1,7 @@
+# Owner-approved documentation examples; exact historical findings only.
+# fnox-security-best-practices: deliberately bad plaintext configuration example.
+fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/fnox-security-best-practices/SKILL.md:generic-api-key:26
+# mise-environment-management: example of secrets in a committed file.
+fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/mise-environment-management/SKILL.md:generic-api-key:403
+# github: example Authorization header in local API documentation.
+fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/github/SKILL.md:curl-auth-header:74

@@ -1,6 +1,11 @@
 [tools]
 python = "3.15.2"
 uv = "0.13.7"
+lefthook = "2.2.2"
+gitleaks = "8.30.1"
+"pipx:commitizen" = { version = "4.19.3", uvx = true }
+fnox = "1.48.0"
+age = "1.3.2"
 
 [settings]
 python.uv_venv_auto = "source"
@@ -11,8 +16,8 @@ UV_PYTHON = { value = "{{ tools.python.path }}/bin/python", tools = true }
 UV_PYTHON_DOWNLOADS = "never"
 
 [tasks.setup]
-description = "Install locked Python dependencies"
-run = "uv sync --locked"
+description = "Install locked Python dependencies and local git hooks"
+run = ["uv sync --locked", 'if [ "${CI:-}" != "true" ]; then lefthook install; fi']
 
 [tasks.run]
 description = "Print the starter package name and version"
@@ -54,4 +59,38 @@ run = [
   { task = "typecheck" },
   { task = "test" },
   { task = "lock:check" },
+  { task = "secrets" },
+  { task = "secrets:check" },
 ]
+
+[tasks."hooks:lint"]
+description = "Apply safe Ruff fixes to the staged paths supplied by lefthook"
+run = "uv run --locked ruff check --fix --"
+
+[tasks."hooks:format"]
+description = "Format the staged paths supplied by lefthook"
+run = "uv run --locked ruff format --"
+
+[tasks."secrets:staged"]
+description = "Scan staged changes for secrets"
+run = "gitleaks git --staged --redact --no-banner"
+
+[tasks."secrets:staged-fnox"]
+description = "Validate fnox ciphertext in the git index"
+run = "uv run --locked python scripts/check_fnox.py --staged"
+
+[tasks.secrets]
+description = "Scan all git refs and tracked working-tree files"
+run = "uv run --locked python scripts/scan_secrets.py"
+
+[tasks."secrets:check"]
+description = "Validate shared fnox ciphertext without decrypting"
+run = "uv run --locked python scripts/check_fnox.py"
+
+[tasks.commit]
+description = "Create a guided conventional commit"
+run = "cz commit"
+
+[tasks.bump]
+description = "Preview version and changelog changes (release PR flow in task 05)"
+run = "cz bump --dry-run"
