@@ -1,7 +1,6 @@
 """Decode file-tool hook events without third-party dependencies."""
 
 import json
-import os
 from pathlib import Path
 from typing import cast
 
@@ -14,7 +13,7 @@ def object_dict(value: object) -> dict[str, object]:
 
 
 def edited_paths(raw: str, root: Path) -> list[Path]:
-    """Return absolute lexical paths, honoring the tool's working directory."""
+    """Return absolute paths, preserving symlink/parent traversal semantics."""
     event = object_dict(json.loads(raw))
     tool_input = object_dict(event.get("tool_input"))
     cwd = event.get("cwd", str(root))
@@ -28,7 +27,7 @@ def edited_paths(raw: str, root: Path) -> list[Path]:
     for entry in inputs:
         path = entry.get("file_path", entry.get("notebook_path"))
         if isinstance(path, str) and path:
-            absolute = Path(os.path.abspath(Path(cwd) / path))
+            absolute = Path(cwd) / path
             if absolute not in paths:
                 paths.append(absolute)
     if not paths:

@@ -22,7 +22,8 @@ RULES = {
 
 def denial(path: Path, root: Path) -> str | None:
     """Explain a protected path or tracked test denial, including symlink aliases."""
-    for candidate in dict.fromkeys((path, path.resolve())):
+    # Resolve the original path before discarding '..' across a directory symlink.
+    for candidate in dict.fromkeys((Path(os.path.abspath(path)), path.resolve())):
         if not candidate.is_relative_to(root):
             continue
         relative = candidate.relative_to(root)
@@ -36,21 +37,23 @@ def denial(path: Path, root: Path) -> str | None:
             reason = "generated facts; regenerate with the task 07 collector"
         if reason:
             return f"Blocked {name}: {reason}."
-        if os.environ.get("STARTER_FIX_MODE") == "1" and relative.parts[0] == "tests":
+        if os.environ.get("STARTER_FIX_MODE") == "1" and relative.parts[:1] == (
+            "tests",
+        ):
             git = shutil.which("git")
             if git is None:
                 raise OSError("git unavailable; cannot verify tracked tests")
             result = subprocess.run(  # noqa: S603  # Resolved git; path is a separate argv element.
-                [git, "cat-file", "-e", f"HEAD:{name}"],
+                [git, "ls-tree", "-r", "--name-only", "-z", "HEAD", "--", name],
                 cwd=root,
                 capture_output=True,
                 check=False,
                 timeout=1,
             )
-            if result.returncode == 0:
-                return f"Blocked {name}: fix mode protects tests tracked at HEAD; preserve the reproducing assertion and fix the implementation. New test files are allowed."
-            if result.returncode != 128:
+            if result.returncode:
                 raise OSError("cannot verify tests against HEAD")
+            if result.stdout:
+                return f"Blocked {name}: fix mode protects tests tracked at HEAD; preserve the reproducing assertion and fix the implementation. New test files are allowed."
     return None
 
 

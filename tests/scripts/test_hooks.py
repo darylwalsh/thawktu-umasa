@@ -82,6 +82,9 @@ def test_guard_normalizes_subdirectory_and_symlinks(
     feed(monkeypatch, event(str(alias), tmp_path), tmp_path)
     assert guard_paths.main() == 2
     assert guard_paths.denial(tmp_path.parent / "external.py", tmp_path) is None
+    (tmp_path / "uv.lock").symlink_to(tmp_path.parent / "external.lock")
+    feed(monkeypatch, event("../uv.lock", subdir), tmp_path)
+    assert guard_paths.main() == 2
 
 
 def test_multiedit_checks_every_target(
@@ -125,9 +128,12 @@ def test_guard_fails_closed_on_malformed_events(
     assert "cannot validate" in capsys.readouterr().err
 
 
-@pytest.mark.parametrize("status,expected", [(0, 2), (128, 0), (1, 2)])
+@pytest.mark.parametrize(
+    "status,tracked,expected", [(0, True, 2), (0, False, 0), (1, False, 2)]
+)
 def test_fix_mode_uses_head(
     status: int,
+    tracked: bool,
     expected: int,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -137,14 +143,25 @@ def test_fix_mode_uses_head(
     monkeypatch.setattr(guard_paths.shutil, "which", Mock(return_value="/usr/bin/git"))
 
     def run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
-        assert args == ["/usr/bin/git", "cat-file", "-e", "HEAD:tests/test_models.py"]
+        assert args == [
+            "/usr/bin/git",
+            "ls-tree",
+            "-r",
+            "--name-only",
+            "-z",
+            "HEAD",
+            "--",
+            "tests/test_models.py",
+        ]
         assert kwargs["cwd"] == tmp_path
-        return subprocess.CompletedProcess(args, status)
+        return subprocess.CompletedProcess(
+            args, status, stdout="tests/test_models.py\0" if tracked else ""
+        )
 
     monkeypatch.setattr(guard_paths.subprocess, "run", run)
     feed(monkeypatch, event("tests/test_models.py", tmp_path), tmp_path)
     assert guard_paths.main() == expected
-    if status == 0:
+    if tracked:
         assert "preserve the reproducing assertion" in capsys.readouterr().err
 
 
