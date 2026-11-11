@@ -3,7 +3,7 @@
 ## Purpose
 
 A Python starter with pinned tooling, local/CI guardrails, and agent-maintained workflows.
-The accepted design is in `intent/0001-python-starter-baseline/`; the initial package and mise/uv toolchain are available.
+The accepted design is in `intent/0001-python-starter-baseline/`; the package, quality gate, and local guardrails are available.
 
 ## Commands
 
@@ -58,8 +58,8 @@ For documentation changes, also check whitespace and links. Report unavailable c
 ## Active work
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
-Task 02 merged into `dev` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2).
-Task 03 merged into `dev` in [PR #3](https://github.com/darylwalsh/thawktu-umasa/pull/3); see the [quality-check evidence](intent/0001-python-starter-baseline/evidence/03-quality.md). Task 04 is on `build/hooks`, targeting `dev`; see the [hook evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md). Start task 05 after task 04 merges.
+Tasks 02 and 03 merged into `dev`. Task 04 is on `build/hooks` in [PR #4](https://github.com/darylwalsh/thawktu-umasa/pull/4), open for owner review against `dev`.
+When resuming task 04 or reviewing its PR, read the [task 04 handoff](intent/0001-python-starter-baseline/handoff-04.md): the staged-secret-scan ordering finding remains open, and D30 grants this PR a temporary hosted-eval exception until after task 06 completes. Human code-owner approval remains required. Start task 05 after task 04 merges.
 
 ## Git conventions
 

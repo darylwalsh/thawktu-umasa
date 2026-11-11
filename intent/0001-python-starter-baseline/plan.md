@@ -161,3 +161,6 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   head-SHA `agent-evals` requirement until after task 06 is completed (D30).
   Offline/native proofs remain the available evidence during the exception;
   other review requirements and human code-owner approval still apply.
+- Current session-close state and resume steps are in the
+  [task 04 handoff](handoff-04.md). PR #4 is ready for owner review, with the
+  automated staged-secret-scan ordering finding still open; D30 does not waive it.

@@ -24,3 +24,12 @@ hosted-eval finding for this PR during that period. Existing offline evaluations
 and native Claude hook proofs remain the available evidence; no hosted run is
 claimed. Normal human code-owner approval and review of other findings still
 apply. See D30 in [decisions.md](../decisions.md).
+
+## Later automated finding
+
+The [persistent PR Agent review](https://github.com/darylwalsh/thawktu-umasa/pull/4#issuecomment-6786150673)
+subsequently reports active finding `c373d0ef0b75` through head `f4fab65`:
+the parallel secrets job can scan the index before Ruff re-stages its output.
+The earlier independent review's absence of code findings does not resolve this
+later report. It remains open, is outside D30, and is detailed in the
+[current handoff](../handoff-04.md).
