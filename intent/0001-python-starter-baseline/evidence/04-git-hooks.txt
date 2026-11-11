@@ -1,0 +1,187 @@
+$ stage ordinary file
+exit=0; wall=0.002s
+
+$ reject update stuff
+exit=1; wall=0.591s
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  pre-commit │
+╰──────────────────────────────────────╯
+│  fnox (skip) no matching staged files
+│  python ❯ lint (skip) no files for inspection
+│  python ❯ format (skip) no files for inspection
+┃  secrets ❯
+[secrets:staged] $ gitleaks git --staged --redact --no-banner
+10:11PM INF 0 commits scanned.
+10:11PM INF scanned ~11 bytes (11 bytes) in 88.6ms
+10:11PM INF no leaks found
+
+  ────────────────────────────────────
+summary: (done in 0.31 seconds)
+✓ secrets (0.31 seconds)
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  commit-msg │
+╰──────────────────────────────────────╯
+┃  conventional-commit ❯
+commit validation: failed!
+please enter a commit message in the commitizen format.
+commit "": "update stuff
+"pattern: (?s)(build|bump|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(\S+\))?!?: ([^\n\r]+)((\n\n.*)|(\s*))?$
+
+exit status 14
+  ────────────────────────────────────
+summary: (done in 0.17 seconds)
+✗ conventional-commit (0.17 seconds)
+
+$ stage synthetic credential
+exit=0; wall=0.002s
+
+$ reject synthetic credential
+exit=1; wall=0.390s
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  pre-commit │
+╰──────────────────────────────────────╯
+│  fnox (skip) no matching staged files
+│  python ❯ lint (skip) no files for inspection
+│  python ❯ format (skip) no files for inspection
+┃  secrets ❯
+[secrets:staged] $ gitleaks git --staged --redact --no-banner
+10:11PM INF 0 commits scanned.
+10:11PM INF scanned ~69 bytes (69 bytes) in 101ms
+10:11PM WRN leaks found: 1
+[secrets:staged] ERROR task failed
+
+exit status 1
+  ────────────────────────────────────
+summary: (done in 0.31 seconds)
+✗ secrets (0.31 seconds)
+
+$ remove synthetic credential from index
+exit=0; wall=0.002s
+
+$ stage plaintext fnox
+exit=0; wall=0.002s
+
+$ reject staged plaintext despite clean working copy
+exit=1; wall=0.400s
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  pre-commit │
+╰──────────────────────────────────────╯
+│  python ❯ lint (skip) no files for inspection
+│  python ❯ format (skip) no files for inspection
+┃  fnox ❯
+[secrets:staged-fnox] $ uv run --locked python scripts/check_fnox.py --staged
+fnox.secrets.PROOF: require age ciphertext and no plaintext default; use `fnox set PROOF --provider age` (hidden prompt)
+[secrets:staged-fnox] ERROR task failed
+
+exit status 1
+┃  secrets ❯
+[secrets:staged] $ gitleaks git --staged --redact --no-banner
+10:11PM INF 0 commits scanned.
+10:11PM INF scanned ~65 bytes (65 bytes) in 88.6ms
+10:11PM INF no leaks found
+
+  ────────────────────────────────────
+summary: (done in 0.32 seconds)
+✓ secrets (0.30 seconds)
+✗ fnox (0.07 seconds)
+
+$ restore scratch fnox
+exit=0; wall=0.003s
+
+$ stage unformatted Python
+exit=0; wall=0.004s
+
+$ accept conventional commit and format/restage
+exit=0; wall=0.672s
+[task04-proof 688b5f7] test: prove staged Python formatting
+ 2 files changed, 2 insertions(+)
+ create mode 100644 proof.py
+ create mode 100644 proof.txt
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  pre-commit │
+╰──────────────────────────────────────╯
+│  fnox (skip) no matching staged files
+┃  python ❯ lint ❯
+[hooks:lint] $ uv run --locked ruff check --fix -- proof.py
+All checks passed!
+
+┃  python ❯ format ❯
+[hooks:format] $ uv run --locked ruff format -- proof.py
+1 file reformatted
+
+┃  secrets ❯
+[secrets:staged] $ gitleaks git --staged --redact --no-banner
+10:11PM INF 0 commits scanned.
+10:11PM INF scanned ~40 bytes (40 bytes) in 89.7ms
+10:11PM INF no leaks found
+
+  ────────────────────────────────────
+summary: (done in 0.31 seconds)
+✓ python (0.12 seconds)
+  ✓ lint (0.07 seconds)
+  ✓ format (0.05 seconds)
+✓ secrets (0.31 seconds)
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  commit-msg │
+╰──────────────────────────────────────╯
+┃  conventional-commit ❯
+Commit validation: successful!
+
+  ────────────────────────────────────
+summary: (done in 0.17 seconds)
+✓ conventional-commit (0.17 seconds)
+
+$ inspect committed Python
+exit=0; wall=0.001s
+PROOF_VALUE = {"answer": 42}
+
+$ stage partial Python change
+exit=0; wall=0.002s
+
+$ accept partial staging
+exit=0; wall=0.730s
+[task04-proof f051868] test: preserve unstaged Python changes
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  pre-commit │
+╰──────────────────────────────────────╯
+│  fnox (skip) no matching staged files
+┃  python ❯ lint ❯
+[hooks:lint] $ uv run --locked ruff check --fix -- proof.py
+All checks passed!
+
+┃  python ❯ format ❯
+[hooks:format] $ uv run --locked ruff format -- proof.py
+1 file left unchanged
+
+┃  secrets ❯
+[secrets:staged] $ gitleaks git --staged --redact --no-banner
+10:11PM INF 0 commits scanned.
+10:11PM INF scanned ~29 bytes (29 bytes) in 95.8ms
+10:11PM INF no leaks found
+
+  ────────────────────────────────────
+summary: (done in 0.34 seconds)
+✓ python (0.12 seconds)
+  ✓ lint (0.07 seconds)
+  ✓ format (0.05 seconds)
+✓ secrets (0.32 seconds)
+╭──────────────────────────────────────╮
+│ lefthook  v2.2.2   hook:  commit-msg │
+╰──────────────────────────────────────╯
+┃  conventional-commit ❯
+Commit validation: successful!
+
+  ────────────────────────────────────
+summary: (done in 0.20 seconds)
+✓ conventional-commit (0.20 seconds)
+
+$ inspect partial commit
+exit=0; wall=0.002s
+PROOF_VALUE = {"answer": 43}
+
+$ restore scratch Python
+exit=0; wall=0.002s
+
+$ scratch clean status
+exit=0; wall=0.001s

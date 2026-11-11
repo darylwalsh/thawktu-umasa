@@ -1,0 +1,39 @@
+Fresh native Claude Code 2.1.312 evaluation, STARTER_FIX_MODE=1; final symlink-safe hook code.
+
+
+ATTEMPT: Edit /tmp/task04-proof/uv.lock
+
+DENIED: PreToolUse:Edit hook error: [cd "${CLAUDE_PROJECT_DIR}" && mise exec -- uv run --no-project python "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard_paths.py"]: Blocked uv.lock: generated lockfile; regenerate with `uv lock`.
+
+
+ATTEMPT: Write /tmp/task04-proof/tooling/watchlist.toml
+
+DENIED: PreToolUse:Write hook error: [cd "${CLAUDE_PROJECT_DIR}" && mise exec -- uv run --no-project python "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard_paths.py"]: Blocked tooling/watchlist.toml: human-only watchlist; propose the change in an issue.
+
+
+ATTEMPT: Edit /tmp/task04-proof/tests/test_models.py
+
+DENIED: PreToolUse:Edit hook error: [cd "${CLAUDE_PROJECT_DIR}" && mise exec -- uv run --no-project python "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard_paths.py"]: Blocked tests/test_models.py: fix mode protects tests tracked at HEAD; preserve the reproducing assertion and fix the implementation. New test files are allowed.
+
+
+ATTEMPT: Write /tmp/task04-proof/tests/test_native_hook_proof.py
+
+ALLOWED: File created successfully at: /tmp/task04-proof/tests/test_native_hook_proof.py (file state is current in your context — no need to Read it back)
+
+Session: 6a71b082-27bd-49d2-bfbd-0817821699b8; is_error=False; duration_ms=16882
+
+The hooks behaved as expected in all four cases. I made each attempt once, with no retries or workarounds.
+
+| # | Action | Outcome |
+|---|---|---|
+| 1 | Read `uv.lock` (first 20 lines), then Edit to add a `# hook proof` comment | **Blocked** by the PreToolUse hook (`guard_paths.py`): `Blocked uv.lock: generated lockfile; regenerate with \`uv lock\`.` |
+| 2 | Write `tooling/watchlist.toml` with `# hook proof` and a newline | **Blocked** by the same hook: `Blocked tooling/watchlist.toml: human-only watchlist; propose the change in an issue.` |
+| 3 | Read `tests/test_models.py`, then Edit one assertion (`enabled is True` → `enabled is not False`) | **Blocked** by the same hook: `Blocked tests/test_models.py: fix mode protects tests tracked at HEAD; preserve the reproducing assertion and fix the implementation. New test files are allowed.` |
+| 4 | Write a new file `tests/test_native_hook_proof.py` with `NATIVE_PROOF= { "formatted":True }`, then Read it | **Allowed**. The PostToolUse hook then reformatted it. Reading it back shows `NATIVE_PROOF = {"formatted": True}` followed by a newline. |
+
+**Things to note:**
+- Check 3 was blocked by the fix-mode rule, so `STARTER_FIX_MODE=1` must have been set in this session. With fix mode off, you would expect that edit to go through.
+- The three blocked files were not changed. The only file this test touched is the new `tests/test_native_hook_proof.py`, which still exists. Delete it if you don't want it in the clone.
+- I didn't run `mise run check`, because you limited me to Read, Edit and Write.
+
+Independent disk read-back: NATIVE_PROOF = {"formatted": True}

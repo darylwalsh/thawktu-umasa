@@ -1,0 +1,46 @@
+============================= test session starts ==============================
+platform linux -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/daryl/sonar-thawktu-umasa/main
+configfile: pyproject.toml
+plugins: socket-0.8.1, cov-7.1.0
+collected 1 item
+
+tests/scripts/test_guard_symlink_traversal.py F                          [100%]
+
+=================================== FAILURES ===================================
+_________ test_symlink_parent_traversal_keeps_actual_protected_target __________
+
+tmp_path = PosixPath('/tmp/pytest-of-daryl/pytest-11/test_symlink_parent_traversal_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2103c0df30>
+capsys = <_pytest.capture.CaptureFixture object at 0x7f2103d7f0e0>
+
+    def test_symlink_parent_traversal_keeps_actual_protected_target(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        (tmp_path / "src").mkdir()
+        (tmp_path / "subdir").mkdir()
+        (tmp_path / "uv.lock").write_text("generated\n")
+        (tmp_path / "src/alias").symlink_to(tmp_path / "subdir", target_is_directory=True)
+        monkeypatch.setenv("CLAUDE_PROJECT_DIR", str(tmp_path))
+        monkeypatch.setattr(
+            "sys.stdin",
+            io.StringIO(
+                json.dumps(
+                    {
+                        "cwd": str(tmp_path),
+                        "tool_name": "Edit",
+                        "tool_input": {"file_path": "src/alias/../uv.lock"},
+                    }
+                )
+            ),
+        )
+
+>       assert guard_paths.main() == 2
+E       assert 0 == 2
+E        +  where 0 = <function main at 0x7f2103c6c460>()
+E        +    where <function main at 0x7f2103c6c460> = guard_paths.main
+
+tests/scripts/test_guard_symlink_traversal.py:32: AssertionError
+=========================== short test summary info ============================
+FAILED tests/scripts/test_guard_symlink_traversal.py::test_symlink_parent_traversal_keeps_actual_protected_target
+============================== 1 failed in 0.02s ===============================

@@ -9,7 +9,7 @@ The accepted design is in `intent/0001-python-starter-baseline/`; the initial pa
 
 Tasks tagged `(from NN)` remain planned until their delivery task lands; remove each marker when implemented. See the active spec's Tasks section for details.
 
-- `mise run setup` — sync locked dependencies; install hooks (from 04).
+- `mise run setup` — sync locked dependencies; install local git hooks.
 - `mise run run` — run the demo package.
 - `mise run fmt` — format Python.
 - `mise run fmt:check` — check formatting.
@@ -18,15 +18,15 @@ Tasks tagged `(from NN)` remain planned until their delivery task lands; remove 
 - `mise run typecheck` — run strict pyright.
 - `mise run test` — run pytest with coverage.
 - `mise run lock:check` — check lockfile freshness.
-- `mise run secrets` — scan history and tracked files (from 04).
-- `mise run secrets:check` — validate encrypted fnox values (from 04).
+- `mise run secrets` — scan all git refs and tracked working-tree files.
+- `mise run secrets:check` — validate encrypted fnox values without decryption.
 - `mise run watchlist:check` — validate the watchlist (from 07).
 - `mise run report:check` — validate reports against facts (from 07).
-- `mise run check` — run format, lint, types, tests, then lock verification; extended in 04 and 07.
+- `mise run check` — run format, lint, types, tests, lock verification, and secrets checks; extended in 07.
 - `mise run check:aw` — compile workflows and check generated drift (from 06).
 - `mise run evals` — evaluate agent configuration; requires agent credentials, separate from check (from 06).
-- `mise run commit` — create a guided conventional commit (from 04).
-- `mise run bump` — preview version/changelog changes with `--dry-run`; release PR flow from 05 (from 04).
+- `mise run commit` — create a guided conventional commit.
+- `mise run bump` — preview version/changelog changes (always `--dry-run`); release PR flow from 05.
 - `mise run labels` — provision repository labels; maintainer authentication required (from 06).
 - `mise run watch:preview` — trigger a tooling-watch run; GitHub authentication required (from 07).
 
@@ -59,7 +59,7 @@ For documentation changes, also check whitespace and links. Report unavailable c
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
 Task 02 merged into `dev` in [PR #2](https://github.com/darylwalsh/thawktu-umasa/pull/2).
-Task 03 is implemented on `task-03-lint-type-test`, targeting `dev`; see the [quality-check evidence](intent/0001-python-starter-baseline/evidence/03-quality.md). Start task 04 after task 03 merges.
+Task 03 merged into `dev` in [PR #3](https://github.com/darylwalsh/thawktu-umasa/pull/3); see the [quality-check evidence](intent/0001-python-starter-baseline/evidence/03-quality.md). Task 04 is on `build/hooks`, targeting `dev`; see the [hook evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md). Start task 05 after task 04 merges.
 
 ## Git conventions
 
@@ -67,6 +67,8 @@ Task 03 is implemented on `task-03-lint-type-test`, targeting `dev`; see the [qu
 - Never use `--no-verify`, force-push `main`, or disable Claude Code hooks.
 - Follow `REVIEW.md`: independent agent review, then human code-owner approval; only eligible report PRs use the deterministic merge exception.
 - Keep changes within the assigned task; include acceptance evidence in the PR. Regenerate tool-owned files with their tool.
+- In bug fixes, set `STARTER_FIX_MODE=1` after committing the reproducing test; tracked tests then stay protected from direct file-tool edits.
+- Owners add encrypted values with `mise exec -- fnox set NAME --provider age` (hidden prompt); see [fnox age docs](https://fnox.jdx.dev/providers/age).
 
 ## Agent code search
 
