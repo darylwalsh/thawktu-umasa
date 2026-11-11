@@ -1,5 +1,12 @@
 {
     "github.copilot.enable": {
         "markdown": true
-    }
+    },
+    "debug.javascript.defaultRuntimeExecutable": {
+        "pwa-node": "/home/daryl/.local/share/mise/shims/node"
+    },
+    "sonarlint.pathToNodeExecutable": "/home/daryl/.local/share/mise/shims/node",
+    "sops.binPath": "/home/daryl/.local/share/mise/shims/sops",
+    "sonarlint.ls.javaHome": "/home/daryl/.local/share/mise/installs/java/corretto-21.0.11.10.1",
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv"
 }
