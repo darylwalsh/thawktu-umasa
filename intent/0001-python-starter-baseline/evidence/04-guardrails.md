@@ -224,8 +224,10 @@ first in `8272beb`, then passed unchanged after fix `c764c8d`. See the
 The fix checks both the normalized lexical path and the original resolved target.
 The independent reviewer rechecked the correction and final native transcript;
 the remaining finding is the unavailable hosted head-SHA eval. See the
-[review](04-review.md). The PR remains a draft unless the owner grants a temporary
-exception; native/offline evidence is not represented as a hosted run.
+[review](04-review.md). The owner subsequently granted PR #4 a temporary exception
+to the hosted head-SHA eval requirement until after task 06 is completed (D30).
+This removes the eval-related draft hold; native/offline evidence is not
+represented as a hosted run, and human code-owner approval remains required.
 
 ## Q21 and inherited decisions
 

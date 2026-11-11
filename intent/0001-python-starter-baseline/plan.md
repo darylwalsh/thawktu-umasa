@@ -157,3 +157,7 @@ taste. The task that needs each one stops and asks if it isn't done yet.
 - The hosted `agent-evals` workflow is still task 06. Task 04 supplies offline
   hook evaluations and native Claude Code acceptance evidence; missing hosted
   eval evidence must be reported in the PR and cannot be represented as green.
+- The owner explicitly granted PR #4 a temporary exception to the hosted
+  head-SHA `agent-evals` requirement until after task 06 is completed (D30).
+  Offline/native proofs remain the available evidence during the exception;
+  other review requirements and human code-owner approval still apply.
