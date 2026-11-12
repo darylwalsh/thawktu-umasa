@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://lefthook.dev/schema.json
 pre-commit:
-  parallel: true
+  parallel: false
   jobs:
     # The two writers share files: order them to avoid formatting/index races.
     - name: python
