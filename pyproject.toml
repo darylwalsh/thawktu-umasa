@@ -26,7 +26,8 @@ select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "RUF", "S"]
 ]
 
 [tool.pyright]
-include = ["src", "tests"]
+include = ["src", "tests", "scripts", ".claude/hooks"]
+extraPaths = ["src", ".claude/hooks"]
 typeCheckingMode = "strict"
 pythonVersion = "3.15"
 venvPath = "."
@@ -35,7 +36,8 @@ reportUnnecessaryTypeIgnoreComment = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = ["--strict-markers", "--strict-config", "--disable-socket", "--cov=src"]
+pythonpath = [".", ".claude/hooks"]
+addopts = ["--strict-markers", "--strict-config", "--disable-socket", "--cov=src", "--cov=scripts", "--cov=.claude/hooks"]
 filterwarnings = ["error"]
 
 [tool.coverage.run]
@@ -44,6 +46,14 @@ branch = true
 [tool.coverage.report]
 fail_under = 95
 show_missing = true
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "uv"
+tag_format = "v$version"
+update_changelog_on_bump = true
+major_version_zero = true
+bump_message = "chore(release): v$current_version → v$new_version"
 
 [dependency-groups]
 dev = [

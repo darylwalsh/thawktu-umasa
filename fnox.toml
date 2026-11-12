@@ -1,0 +1,8 @@
+default_provider = "age"
+
+[providers.age]
+type = "age"
+recipients = ["age14ewj70sulrytfv95qftl8j54dqzhuc69yf8heyvgzcz9sj94x3dqy4lvlf"]
+
+# No secrets are required for setup, checks, or CI.
+[secrets]

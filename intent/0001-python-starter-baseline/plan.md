@@ -63,8 +63,8 @@ Decisions D0–D21 and open questions Q10–Q21 are in
 | --- | --- | --- | --- | --- |
 | 1. Foundation | Agent context, repo skeleton, ADR habit | [`01`](tasks/01-agents-md-and-skeleton.md) | `docs/agents-md` | done |
 | | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | done |
-| | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `task-03-lint-type-test` | in progress |
-| | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | todo |
+| | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `task-03-lint-type-test` | done |
+| | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | in review |
 | 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `ci/pipeline` | todo |
 | 3. Agents | gh-aw foundation, PR review agent, eval suite (Q13, Q14, Q17a, Q18) | [`06`](tasks/06-gh-aw-pr-review-evals.md) | `ci/pr-review` | todo |
 | | Weekly tooling watch, facts collector, report check, merge guard (Q15, Q16, Q19) | [`07`](tasks/07-tooling-watch-and-merge-guard.md) | `ci/tooling-watch` | todo |
@@ -145,3 +145,22 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   Pydantic misuse diagnostics, offline typing, and negative proofs.
 - The task 02 [handoff](handoff.md) is historical context. Hooks and secrets
   remain task 04; CI remains task 05; the hosted agent eval suite remains task 06.
+- Task 03 merged into `dev` in PR #3. User Prompt 04 requests task 04 on
+  `build/hooks`, with a PR targeting `dev` and human approval before merge.
+- The owner supplied the public age recipient through an ignored local prompt
+  file and explicitly approved three exact historical documentation-finding
+  exclusions. No history rewriting or broader path exclusion is authorized.
+- Task 04 records Q21 and the portable Python checker in D26–D29; acceptance
+  evidence is in [04-guardrails.md](evidence/04-guardrails.md). The Ruff writers
+  share a sequential group inside parallel pre-commit checks, avoiding file and
+  index races. PostToolUse also fixes before formatting for stable final output.
+- The hosted `agent-evals` workflow is still task 06. Task 04 supplies offline
+  hook evaluations and native Claude Code acceptance evidence; missing hosted
+  eval evidence must be reported in the PR and cannot be represented as green.
+- The owner explicitly granted PR #4 a temporary exception to the hosted
+  head-SHA `agent-evals` requirement until after task 06 is completed (D30).
+  Offline/native proofs remain the available evidence during the exception;
+  other review requirements and human code-owner approval still apply.
+- Current session-close state and resume steps are in the
+  [task 04 handoff](handoff-04.md). PR #4 is ready for owner review, with the
+  automated staged-secret-scan ordering finding still open; D30 does not waive it.

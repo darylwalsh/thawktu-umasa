@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://lefthook.dev/schema.json
+pre-commit:
+  parallel: false
+  jobs:
+    # The two writers share files: order them to avoid formatting/index races.
+    - name: python
+      glob: "*.py"
+      group:
+        piped: true
+        jobs:
+          - name: lint
+            run: mise run hooks:lint -- {staged_files}
+            stage_fixed: true
+          - name: format
+            run: mise run hooks:format -- {staged_files}
+            stage_fixed: true
+    - name: secrets
+      run: mise run secrets:staged
+    - name: fnox
+      glob: "fnox.toml"
+      run: mise run secrets:staged-fnox
+
+commit-msg:
+  jobs:
+    - name: conventional-commit
+      run: mise exec -- cz check --commit-msg-file "{1}"
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: types
+      run: mise run typecheck
+    - name: tests
+      run: mise run test

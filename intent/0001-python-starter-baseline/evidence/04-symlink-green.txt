@@ -1,0 +1,10 @@
+============================= test session starts ==============================
+platform linux -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/daryl/sonar-thawktu-umasa/main
+configfile: pyproject.toml
+plugins: socket-0.8.1, cov-7.1.0
+collected 1 item
+
+tests/scripts/test_guard_symlink_traversal.py .                          [100%]
+
+============================== 1 passed in 0.02s ===============================
