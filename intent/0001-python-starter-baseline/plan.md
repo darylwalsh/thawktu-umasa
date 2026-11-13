@@ -64,8 +64,8 @@ Decisions D0–D21 and open questions Q10–Q21 are in
 | 1. Foundation | Agent context, repo skeleton, ADR habit | [`01`](tasks/01-agents-md-and-skeleton.md) | `docs/agents-md` | done |
 | | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | done |
 | | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `task-03-lint-type-test` | done |
-| | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | in review |
-| 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `ci/pipeline` | todo |
+| | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | done |
+| 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `task-05-ci-release` | in progress |
 | 3. Agents | gh-aw foundation, PR review agent, eval suite (Q13, Q14, Q17a, Q18) | [`06`](tasks/06-gh-aw-pr-review-evals.md) | `ci/pr-review` | todo |
 | | Weekly tooling watch, facts collector, report check, merge guard (Q15, Q16, Q19) | [`07`](tasks/07-tooling-watch-and-merge-guard.md) | `ci/tooling-watch` | todo |
 | | Bug and feature issue workers, test-first check (Q17b) | [`08`](tasks/08-issue-workers.md) | `ci/issue-workers` | todo |
@@ -164,3 +164,16 @@ taste. The task that needs each one stops and asks if it isn't done yet.
 - Current session-close state and resume steps are in the
   [task 04 handoff](handoff-04.md). PR #4 is ready for owner review, with the
   automated staged-secret-scan ordering finding still open; D30 does not waive it.
+
+- Task 04 merged into `dev` in PR #4 at `6f8b9b7`; its last change serialized
+  pre-commit jobs. The task 04 handoff describes the earlier review state.
+- User Prompt 05 requests task 05 on the existing `task-05-ci-release` branch,
+  targeting `dev`. [PR #5](https://github.com/darylwalsh/thawktu-umasa/pull/5)
+  supplies CI, release preparation/tagging, Dependabot, CODEOWNERS and owner setup.
+- D31 answers Q20; D32 records the owner-selected personal CODEOWNERS identity
+  and release-only gh installation; D33 explains isolated negative-proof PRs.
+  See [task 05 evidence](evidence/05-ci-release.md) for hosted runs and validation.
+- The starter-bot installation/variable/secret confirmation remains an owner gate.
+  No App credential was read, no ruleset was applied, and no real release was cut.
+- Hosted agent evals are unavailable until task 06. D30 only covers PR #4;
+  the AGENTS.md change in PR #5 needs a separate owner exception or eval evidence.

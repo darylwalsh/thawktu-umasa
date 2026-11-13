@@ -92,5 +92,5 @@ description = "Create a guided conventional commit"
 run = "cz commit"
 
 [tasks.bump]
-description = "Preview version and changelog changes (release PR flow in task 05)"
+description = "Preview version and changelog changes without creating a release"
 run = "cz bump --dry-run --yes"

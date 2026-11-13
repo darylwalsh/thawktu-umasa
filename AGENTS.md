@@ -26,7 +26,7 @@ Tasks tagged `(from NN)` remain planned until their delivery task lands; remove 
 - `mise run check:aw` — compile workflows and check generated drift (from 06).
 - `mise run evals` — evaluate agent configuration; requires agent credentials, separate from check (from 06).
 - `mise run commit` — create a guided conventional commit.
-- `mise run bump` — preview version/changelog changes (always `--dry-run`); release PR flow from 05.
+- `mise run bump` — preview version/changelog changes (always `--dry-run`).
 - `mise run labels` — provision repository labels; maintainer authentication required (from 06).
 - `mise run watch:preview` — trigger a tooling-watch run; GitHub authentication required (from 07).
 
@@ -58,8 +58,10 @@ For documentation changes, also check whitespace and links. Report unavailable c
 ## Active work
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
-Tasks 02 and 03 merged into `dev`. Task 04 is on `build/hooks` in [PR #4](https://github.com/darylwalsh/thawktu-umasa/pull/4), open for owner review against `dev`.
-When resuming task 04 or reviewing its PR, read the [task 04 handoff](intent/0001-python-starter-baseline/handoff-04.md): the staged-secret-scan ordering finding remains open, and D30 grants this PR a temporary hosted-eval exception until after task 06 completes. Human code-owner approval remains required. Start task 05 after task 04 merges.
+Tasks 02–04 merged into `dev`; task 05 is on `task-05-ci-release` in [PR #5](https://github.com/darylwalsh/thawktu-umasa/pull/5), targeting `dev`.
+CI mirrors `mise run setup` and `mise run check`, plus Commitizen validation of the PR commit range.
+To cut a release after the workflows reach `main`, dispatch **Prepare release PR** on `main`, review the generated version/changelog PR, and squash merge with its `chore(release):` title intact. The post-merge workflow tags that SHA and creates the GitHub Release. See [GitHub setup](docs/github-setup.md) for owner settings and recovery.
+Human code-owner approval remains required. Hosted agent evals arrive in task 06; D30's temporary exception applies only to PR #4.
 
 ## Git conventions
 
