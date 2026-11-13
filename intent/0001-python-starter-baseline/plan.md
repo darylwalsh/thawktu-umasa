@@ -65,7 +65,7 @@ Decisions D0–D21 and open questions Q10–Q21 are in
 | | mise + uv toolchain, package skeleton, Python version (Q10) | [`02`](tasks/02-toolchain-mise-uv.md) | `task-02-mise-uv` | done |
 | | Ruff, pyright strict + pydantic, pytest (Q11, Q12) | [`03`](tasks/03-lint-typecheck-test.md) | `task-03-lint-type-test` | done |
 | | lefthook, Claude Code hooks, gitleaks, fnox/age, commitizen (Q21) | [`04`](tasks/04-hooks-secrets-commits.md) | `build/hooks` | done |
-| 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `task-05-ci-release` | in progress |
+| 2. Pipeline | CI, release PR flow, Dependabot, ruleset doc (Q20) | [`05`](tasks/05-ci-release.md) | `task-05-ci-release` | in review |
 | 3. Agents | gh-aw foundation, PR review agent, eval suite (Q13, Q14, Q17a, Q18) | [`06`](tasks/06-gh-aw-pr-review-evals.md) | `ci/pr-review` | todo |
 | | Weekly tooling watch, facts collector, report check, merge guard (Q15, Q16, Q19) | [`07`](tasks/07-tooling-watch-and-merge-guard.md) | `ci/tooling-watch` | todo |
 | | Bug and feature issue workers, test-first check (Q17b) | [`08`](tasks/08-issue-workers.md) | `ci/issue-workers` | todo |
@@ -183,7 +183,8 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   required. No hosted eval pass is claimed.
 - D34 authorizes the generic fake-key proof on PR #5: commit `5346069` failed
   at the hosted secrets step, then was immediately reverted in `22246f4`.
-  Its exact historical fingerprint remains detectable after the revert; an
-  exact-fingerprint exception is proposed separately for owner approval.
+  D36 records the owner-approved exact historical fingerprint exception;
+  reintroducing the fixture remains detectable. All three hosted negative
+  proof links are recorded. Final checks and independent review accompany PR #5.
 - The owner reaffirmed `@darylwalsh` for CODEOWNERS after the Prompt 06 team
   name was clarified against this personal repository.

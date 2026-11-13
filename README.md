@@ -78,8 +78,9 @@ Private identities stay outside the repository; local override files are ignored
 The checker validates every profile and rejects plaintext fallback defaults.
 
 The only custom scanner exceptions are age payloads in root `fnox.toml` for the
-generic API key rule, and three exact historical documentation fingerprints
-approved by the owner. See [task 04 evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md)
+generic API key rule, three exact historical documentation fingerprints, and
+the single reverted task 05 fake-key fixture fingerprint, all approved by the
+owner. See [task 04 evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md)
 for versions, transcripts, timings, and the Bash coverage limit.
 
 ## CI and releases

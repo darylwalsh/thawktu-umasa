@@ -57,19 +57,19 @@ one leak and exit 1. The fixture was immediately reverted and pushed in
 `22246f4`; no fixture file remains in the working tree. All three hosted
 negative proofs now have run links. No real credential was used.
 
-The all-history scan correctly still detects this exact historical finding:
+After the revert, the all-history scan correctly still detected this exact
+historical finding:
 
 ```text
 53460693ce332f2814cfd29c92267b0cb2fa7584:ci-secret-proof.txt:generic-api-key:2
 ```
 
-A proposed `.gitleaksignore` entry was tested using a temporary ignore file,
-without changing the repository's scanner policy. The historical scan passed
-with that one fingerprint excluded; reintroducing the same fixture in a
-working-tree scan still failed. Approval for that exact historical exception
-is pending; D34 did not authorize it. Until resolved, current-head CI remains
-red even though the fixture has been reverted. The [post-revert check output](05-post-proof-check.txt)
-records 90 passing tests and the expected sole history-scan failure.
+D36 records the owner's subsequent explicit approval for this exact fingerprint
+only. `.gitleaksignore` now excludes that one commit/path/rule/line; no path,
+rule or value-wide exception was added. The historical scan passes, and
+reintroducing the same fixture in a working-tree scan still fails. The
+[post-revert check output](05-post-proof-check.txt) preserves the earlier red
+state; [the full check output](05-check.txt) records validation after D36.
 
 The implementation before the proof was green in
 [CI run 43361875700](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43361875700)
@@ -183,6 +183,8 @@ Human approval is still required; this evidence is not merge authorization.
 
 Independent review findings and their disposition are also recorded in
 [the PR review comment](https://github.com/darylwalsh/thawktu-umasa/pull/5#issuecomment-6842583045).
-The earlier approval/installation findings are resolved by the owner's
-explicit instructions. The exact historical fixture exception remains open;
-the PR stays a draft until current-head CI is green and review is updated.
+The earlier approval/installation findings and historical fixture disposition
+are resolved by the owner's explicit instructions (D34–D36). Current-head CI
+and the final independent review are recorded on PR #5. Once final-head CI
+is green, human code-owner approval remains the merge gate; no merge is
+authorized by this report.

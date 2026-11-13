@@ -50,6 +50,8 @@ inherit also get an ADR in `docs/decisions/`.
 | D34 | The owner approves one public fake-key CI proof on PR #5's branch: one throwaway commit with a freshly invented, never-valid generic `api_key` value, no provider-specific format, a test-fixture commit message, and permission to skip local hooks for that one commit only. Revert immediately after red CI and record the run. This overrides D33 for this proof only, does not authorize history rewriting or a scanner exception, and does not permit any further hook skips. | 2026-11-12 | Owner-directed approval in `.agent/prompts/user-prompt-06.md`; fixture `5346069`, immediate revert `22246f4`, [red CI](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43363169017) |
 | D35 | The owner grants PR #5 a temporary exception to REVIEW.md's hosted head-SHA `agent-evals` requirement until after task 06 is completed, on the same terms as D30. Offline evidence remains required; no hosted eval pass may be claimed. All other review requirements and human code-owner approval still apply. | 2026-11-12 | Owner-directed approval in `.agent/prompts/user-prompt-06.md` |
 
+| D36 | The owner explicitly approves excluding only `53460693ce332f2814cfd29c92267b0cb2fa7584:ci-secret-proof.txt:generic-api-key:2` in `.gitleaksignore`, the historical never-valid fixture authorized by D34 and immediately reverted. No path/rule/value-wide exception or history rewrite is authorized. The same fixture reintroduced in the working tree must still fail scanning. | 2026-11-12 | Owner's explicit approval quoting this exact fingerprint; [proof and validation](evidence/05-ci-release.md) |
+
 ## Open
 
 | ID | Question | Decided in | Answer |
