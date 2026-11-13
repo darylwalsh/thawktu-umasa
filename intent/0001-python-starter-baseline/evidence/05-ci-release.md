@@ -51,7 +51,9 @@ of the public label `task05-public-nonfunctional-fixture`, truncated to 36 hex
 characters with the provider prefix. It was never issued by a provider, and
 pinned gitleaks rejected it locally (exit 1, one finding, redacted output).
 That is a local proof only; public publication still awaits approval.
-Final-head CI evidence is being collected.
+The complete implementation at `f7e6b2d` is green in
+[CI run 43356547016](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43356547016).
+The PR checks show the status of subsequent evidence-only commits.
 
 ## Q20: files-only equals full bump
 
@@ -146,3 +148,7 @@ that workflow. D30 exempts PR #4 only, so this remains a REVIEW.md major until
 the owner grants a separate exception or eval evidence is available.
 Starter-bot installation and Actions variable/secret confirmation are pending.
 Human approval is still required; this evidence is not merge authorization.
+
+Independent review findings and their disposition are also recorded in
+[the PR review comment](https://github.com/darylwalsh/thawktu-umasa/pull/5#issuecomment-6842583045).
+The PR remains a draft with the three owner/acceptance gates above open.
