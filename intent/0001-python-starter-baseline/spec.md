@@ -61,7 +61,7 @@ mise.
 | gitleaks | mise | `mise.toml` | Same as the TS starter |
 | commitizen | mise (`pipx:commitizen`, uv-backed) | `mise.toml` | Same as the TS starter; keeps it out of the project's deps |
 | fnox, age | mise | `mise.toml` | Same as the TS starter (D6) |
-| gh + gh-aw extension | mise, **only in the `aw` CI job and for maintainers** | `mise.toml` (optional tool group) | Compile/lint agent workflows; not needed for `mise run check` (D20) **(verify in 06, Q13)** |
+| gh + gh-aw extension | mise, **in the `aw` job/maintainer setup; gh also in release jobs (D32)** | `mise.toml` (optional tool group) | Compile/lint agent workflows; not needed for `mise run check` (D20) **(verify in 06, Q13)** |
 
 Rules:
 
@@ -307,8 +307,8 @@ straight to `main`, which the ruleset forbids. Instead:
   → `cz bump --files-only --yes` (version in `pyproject.toml` + `uv.lock`)
   and the CHANGELOG update → commit on `release/vX.Y.Z` → open a PR with the
   starter-bot App token so `ci` and `pr-review` run. The release PR merges
-  through normal human approval. **(verify in 05, Q20: that `--files-only`
-  plus changelog generation gives the same result as a full bump)**
+  through normal human approval. **Verified in task 05 (D31/Q20): `--files-only --yes --changelog` gives
+  byte-identical generated files to a full bump without a commit or tag.**
 - **`release-tag.yml`** (push to `main` where the head commit is
   `chore(release): …`): creates tag `vX.Y.Z` and a GitHub Release from the
   new CHANGELOG section. The only workflow with `contents: write` via

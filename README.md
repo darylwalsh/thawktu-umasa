@@ -4,8 +4,8 @@ A Python starter for reproducible tooling, shared local and CI quality checks,
 and agent-maintained development workflows. The accepted design uses mise for
 tools and tasks, uv for Python dependencies, and reviewed intent-driven changes.
 The baseline provides a small typed pydantic package, quality checks, repository
-guidance, planning templates, and local git/Claude Code hooks. CI and agent
-workflows arrive in later tasks.
+guidance, planning templates, local git/Claude Code hooks, and CI with a
+reviewed release PR flow. Agent workflows arrive in later tasks.
 
 Status: under construction, see [`intent/0001-python-starter-baseline/`](intent/0001-python-starter-baseline/).
 
@@ -43,7 +43,7 @@ order, stopping at the first failure. It needs no secrets or decryption keys.
 | `mise run secrets` | Scan all refs and tracked working-tree contents |
 | `mise run secrets:check` | Reject shared fnox values that are not age ciphertext |
 | `mise run commit` | Create a guided Conventional Commit |
-| `mise run bump -- --dry-run` | Preview the next version and changelog without writing or tagging |
+| `mise run bump` | Preview the next version and changelog without writing or tagging |
 
 The pinned dev tools come from `uv.lock`. Pyright's Node binary is installed
 with its `nodejs` extra during setup; typing works offline afterward. Pytest
@@ -59,8 +59,8 @@ for the rule selection, coverage baseline, and negative proofs.
 only syncs dependencies. Pre-commit fixes and formats staged Python, re-stages
 the fixes, scans staged changes for secrets, and checks staged `fnox.toml`.
 Unstaged hunks are preserved. Commit-msg enforces Conventional Commits;
-pre-push runs typing and tests. The two Python writers run sequentially while
-independent pre-commit checks run in parallel.
+pre-push runs typing and tests. Pre-commit jobs run sequentially so secret
+scanning sees the index after the Python writers finish.
 
 Claude Code file-tool hooks block direct edits to generated files and the
 human-owned watchlist and fnox configuration. Set `STARTER_FIX_MODE=1` after
@@ -78,6 +78,22 @@ Private identities stay outside the repository; local override files are ignored
 The checker validates every profile and rejects plaintext fallback defaults.
 
 The only custom scanner exceptions are age payloads in root `fnox.toml` for the
-generic API key rule, and three exact historical documentation fingerprints
-approved by the owner. See [task 04 evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md)
+generic API key rule, three exact historical documentation fingerprints, and
+the single reverted task 05 fake-key fixture fingerprint, all approved by the
+owner. See [task 04 evidence](intent/0001-python-starter-baseline/evidence/04-guardrails.md)
 for versions, transcripts, timings, and the Bash coverage limit.
+
+## CI and releases
+
+Every PR and push to `main` runs `mise run setup` and `mise run check` in the
+`ci` job. PRs also validate their commit messages with Commitizen. Ordinary
+CI requires no repository secrets. Dependabot proposes weekly GitHub Actions
+and uv updates.
+
+After the workflows reach `main` and the owner configures the starter-bot
+App, dispatch **Prepare release PR** on `main`. It checks the code, generates
+version files and the changelog, and opens a release PR. After code-owner
+approval, squash merge with the `chore(release):` title unchanged; the next
+workflow tags the merged SHA and creates a GitHub Release. Nothing is
+published to PyPI. See [GitHub setup](docs/github-setup.md) for the exact
+ruleset, App permissions, settings, and retry instructions.

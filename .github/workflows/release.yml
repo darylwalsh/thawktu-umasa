@@ -1,0 +1,84 @@
+name: Prepare release PR
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prepare-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: jdx/mise-action@d5574b52816a478f9d4e6529a3f6ff17a8a36785 # v5.2.8
+        with:
+          version: 2026.11.6
+          cache: true
+      - name: Cache uv downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('mise.toml', 'uv.lock') }}
+      - run: mise run setup
+      - run: mise run check
+      - name: Prepare version files and changelog
+        id: bump
+        shell: bash
+        run: |
+          old_version=$(mise exec -- cz version --project)
+          mise exec -- cz bump --files-only --yes --changelog
+          version=$(mise exec -- cz version --project)
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$old_version" != "$version" ]]
+          branch="release/v$version"
+          title="chore(release): v$old_version → v$version"
+          git switch -c "$branch"
+          git config user.name 'starter-bot[bot]'
+          git config user.email 'starter-bot[bot]@users.noreply.github.com'
+          git add -- pyproject.toml uv.lock CHANGELOG.md
+          git commit -m "$title"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+      - name: Install release-only GitHub CLI
+        run: |
+          mise install gh@2.104.0
+          echo "$(mise where gh@2.104.0)/bin" >> "$GITHUB_PATH"
+      - name: Mint repository-scoped starter-bot token
+        id: app
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ vars.STARTER_BOT_APP_ID }}
+          private-key: ${{ secrets.STARTER_BOT_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - name: Push release branch and open PR
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          RELEASE_BRANCH: ${{ steps.bump.outputs.branch }}
+          RELEASE_TITLE: ${{ steps.bump.outputs.title }}
+        shell: bash
+        run: |
+          # Fail on an existing branch; never overwrite a reviewed release PR.
+          git -c credential.helper= -c 'credential.helper=!gh auth git-credential' \
+            push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$RELEASE_BRANCH"
+          cat > "$RUNNER_TEMP/release-pr.md" <<'BODY'
+          Commitizen generated the version files and changelog after the quality gate passed.
+
+          Review the version and notes, wait for `ci`, and obtain code-owner approval.
+          Squash merge with this PR title unchanged: the `chore(release):` subject
+          triggers tagging and the GitHub Release. Nothing is published to PyPI.
+          BODY
+          gh pr create --repo "$GITHUB_REPOSITORY" --base main \
+            --head "$RELEASE_BRANCH" --title "$RELEASE_TITLE" \
+            --body-file "$RUNNER_TEMP/release-pr.md"

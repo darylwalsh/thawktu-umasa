@@ -5,3 +5,5 @@ fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/fnox-security-best-pract
 fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/mise-environment-management/SKILL.md:generic-api-key:403
 # github: example Authorization header in local API documentation.
 fe357dc0bea4114811ec2706b08e0916948b1082:.agents/skills/github/SKILL.md:curl-auth-header:74
+# Owner-approved task 05 never-valid fixture; reverted after its red CI proof (D36).
+53460693ce332f2814cfd29c92267b0cb2fa7584:ci-secret-proof.txt:generic-api-key:2

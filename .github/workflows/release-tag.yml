@@ -1,0 +1,80 @@
+name: Tag merged release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  # Serialize retries of one release without ordinary pushes replacing its queue.
+  group: tag-release-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    if: "startsWith(github.event.head_commit.message, 'chore(release):')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: jdx/mise-action@d5574b52816a478f9d4e6529a3f6ff17a8a36785 # v5.2.8
+        with:
+          version: 2026.11.6
+          cache: true
+          install_args: python
+      - name: Read version and new changelog section
+        id: release
+        shell: bash
+        run: |
+          mise exec -- python - <<'PY'
+          import os
+          import re
+          import subprocess
+          import tomllib
+          from pathlib import Path
+
+          version = tomllib.loads(Path('pyproject.toml').read_text())['project']['version']
+          if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
+              raise SystemExit('Expected a stable semantic version')
+          previous = subprocess.check_output(['git', 'show', 'HEAD^:pyproject.toml'], text=True)
+          if tomllib.loads(previous)['project']['version'] == version:
+              raise SystemExit('Release commit must change the project version')
+          changelog = Path('CHANGELOG.md').read_text()
+          sections = re.split(r'(?m)^## ', changelog)
+          if len(sections) < 2 or not sections[1].startswith(f'v{version} ('):
+              raise SystemExit('Newest changelog section does not match the version')
+          notes = sections[1].split('\n', 1)[1].strip()
+          if not notes:
+              raise SystemExit('Release notes are empty')
+          Path(os.environ['RUNNER_TEMP'], 'release-notes.md').write_text(notes + '\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f'tag=v{version}\n')
+          PY
+      - name: Install release-only GitHub CLI
+        run: |
+          mise install gh@2.104.0
+          echo "$(mise where gh@2.104.0)/bin" >> "$GITHUB_PATH"
+      - name: Tag exact merged commit and publish notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        shell: bash
+        run: |
+          if git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
+            # A retry may reuse its own tag, but may never move another release.
+            test "$(git rev-list -n 1 "$RELEASE_TAG")" = "$GITHUB_SHA"
+          else
+            git tag "$RELEASE_TAG" "$GITHUB_SHA"
+            git -c credential.helper= -c 'credential.helper=!gh auth git-credential' \
+              push "https://github.com/$GITHUB_REPOSITORY.git" "refs/tags/$RELEASE_TAG"
+          fi
+          if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+              --verify-tag --title "$RELEASE_TAG" --notes-file "$RUNNER_TEMP/release-notes.md"
+          fi
