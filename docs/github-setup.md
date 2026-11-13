@@ -64,6 +64,11 @@ Under **Settings → Secrets and variables → Actions**, store:
 | Repository variable | `STARTER_BOT_APP_ID` | App ID from the App settings |
 | Repository secret | `STARTER_BOT_APP_KEY` | Generated private key, including PEM delimiters |
 
+For this repository, App ID `5738669` is also in `mise.toml` for local
+commands. The release workflow reads the **Actions variable** above, not
+the mise environment value; configure that variable separately in template
+copies. The App ID is public metadata, while its private key stays in Actions.
+
 Never commit or paste the private key into a PR. The token action accepts the
 App ID with its `app-id` input; upstream prefers Client ID for new setups,
 but the baseline deliberately retains the specified App ID contract.

@@ -14,6 +14,7 @@ python.uv_venv_auto = "source"
 # Bind uv to mise's installation even when another Python is on PATH.
 UV_PYTHON = { value = "{{ tools.python.path }}/bin/python", tools = true }
 UV_PYTHON_DOWNLOADS = "never"
+STARTER_BOT_APP_ID = "5738669"
 
 [tasks.setup]
 description = "Install locked Python dependencies and local git hooks"

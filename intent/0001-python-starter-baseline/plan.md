@@ -173,7 +173,10 @@ taste. The task that needs each one stops and asks if it isn't done yet.
 - D31 answers Q20; D32 records the owner-selected personal CODEOWNERS identity
   and release-only gh installation; D33 explains isolated negative-proof PRs.
   See [task 05 evidence](evidence/05-ci-release.md) for hosted runs and validation.
-- The starter-bot installation/variable/secret confirmation remains an owner gate.
-  No App credential was read, no ruleset was applied, and no real release was cut.
+- The owner created starter-bot (App ID `5738669`) and added the public ID to
+  `mise.toml`. GitHub metadata confirms the matching Actions variable and the
+  presence of `STARTER_BOT_APP_KEY`. Installation scope/permissions remain
+  unverified: the installation lookup returned HTTP 403 for the available token.
+  No private key was read, no ruleset was applied, and no real release was cut.
 - Hosted agent evals are unavailable until task 06. D30 only covers PR #4;
   the AGENTS.md change in PR #5 needs a separate owner exception or eval evidence.

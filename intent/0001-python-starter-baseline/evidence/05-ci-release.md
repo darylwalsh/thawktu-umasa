@@ -146,7 +146,18 @@ and scope adjustments.
 The AGENTS.md change lacks a hosted head-SHA `agent-evals` run: task 06 supplies
 that workflow. D30 exempts PR #4 only, so this remains a REVIEW.md major until
 the owner grants a separate exception or eval evidence is available.
-Starter-bot installation and Actions variable/secret confirmation are pending.
+The owner confirmed starter-bot creation with public App ID `5738669` and
+added it to `mise.toml`. Read-only GitHub CLI metadata checks confirmed:
+
+```text
+Actions variable STARTER_BOT_APP_ID = 5738669
+Actions secret STARTER_BOT_APP_KEY is present
+```
+
+No secret value was accessed. The workflow already reads these Actions
+settings. Installation scope/permissions still need owner confirmation: the
+installation API returned HTTP 403 because the available token is not a
+GitHub App user access token. No authenticated release run is claimed.
 Human approval is still required; this evidence is not merge authorization.
 
 Independent review findings and their disposition are also recorded in

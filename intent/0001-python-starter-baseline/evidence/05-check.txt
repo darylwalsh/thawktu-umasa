@@ -41,12 +41,12 @@ TOTAL                              208      4     90      5    97%
 Required test coverage of 95.0% reached. Total coverage: 96.98%
 ============================== 90 passed in 1.25s ==============================
 [lock:check] $ uv lock --check
-Resolved 19 packages in 0.62ms
+Resolved 19 packages in 0.64ms
 [secrets] $ uv run --locked python scripts/scan_secrets.py
-10:04PM INF 24 commits scanned.
-10:04PM INF scanned ~4177246 bytes (4.18 MB) in 298ms
-10:04PM INF no leaks found
-10:04PM INF scanned ~338999 bytes (339 KB) in 24.4ms
-10:04PM INF no leaks found
+10:52PM INF 26 commits scanned.
+10:52PM INF scanned ~4200537 bytes (4.20 MB) in 296ms
+10:52PM INF no leaks found
+10:52PM INF scanned ~340431 bytes (340.43 KB) in 28.2ms
+10:52PM INF no leaks found
 [secrets:check] $ uv run --locked python scripts/check_fnox.py
 fnox: all shared values are age ciphertext (no decryption required)
