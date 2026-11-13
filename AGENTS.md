@@ -61,7 +61,7 @@ Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `dec
 Tasks 02–04 merged into `dev`; task 05 is on `task-05-ci-release` in [PR #5](https://github.com/darylwalsh/thawktu-umasa/pull/5), targeting `dev`.
 CI mirrors `mise run setup` and `mise run check`, plus Commitizen validation of the PR commit range.
 To cut a release after the workflows reach `main`, dispatch **Prepare release PR** on `main`, review the generated version/changelog PR, and squash merge with its `chore(release):` title intact. The post-merge workflow tags that SHA and creates the GitHub Release. See [GitHub setup](docs/github-setup.md) for owner settings and recovery.
-Human code-owner approval remains required. Hosted agent evals arrive in task 06; D30's temporary exception applies only to PR #4.
+Human code-owner approval remains required. Hosted agent evals arrive in task 06; D30 covers PR #4 and D35 grants PR #5 the same temporary hosted-eval exception until after task 06 completes. Offline evidence remains required.
 
 ## Git conventions
 

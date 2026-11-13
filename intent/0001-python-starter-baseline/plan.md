@@ -175,8 +175,15 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   See [task 05 evidence](evidence/05-ci-release.md) for hosted runs and validation.
 - The owner created starter-bot (App ID `5738669`) and added the public ID to
   `mise.toml`. GitHub metadata confirms the matching Actions variable and the
-  presence of `STARTER_BOT_APP_KEY`. Installation scope/permissions remain
-  unverified: the installation lookup returned HTTP 403 for the available token.
+  presence of `STARTER_BOT_APP_KEY`. The owner subsequently confirmed the App
+  is installed on this repository only in the Prompt 06 approval.
   No private key was read, no ruleset was applied, and no real release was cut.
-- Hosted agent evals are unavailable until task 06. D30 only covers PR #4;
-  the AGENTS.md change in PR #5 needs a separate owner exception or eval evidence.
+- Hosted agent evals are unavailable until task 06. The owner granted PR #5
+  the temporary exception in D35; offline evidence and human approval remain
+  required. No hosted eval pass is claimed.
+- D34 authorizes the generic fake-key proof on PR #5: commit `5346069` failed
+  at the hosted secrets step, then was immediately reverted in `22246f4`.
+  Its exact historical fingerprint remains detectable after the revert; an
+  exact-fingerprint exception is proposed separately for owner approval.
+- The owner reaffirmed `@darylwalsh` for CODEOWNERS after the Prompt 06 team
+  name was clarified against this personal repository.

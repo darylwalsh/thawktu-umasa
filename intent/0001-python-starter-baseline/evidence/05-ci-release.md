@@ -39,21 +39,41 @@ release branches and tags writable. CODEOWNERS uses the explicitly approved
 | Invalid commit message | [CI run](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43355816226), [closed PR #7](https://github.com/darylwalsh/thawktu-umasa/pull/7) | Quality gate passed; `Check PR commit messages` failed |
 
 The lint and invalid-message branches were deleted after recording their runs.
-D33 explains why these isolated PRs replace task 05's proposed revert method:
-reverts preserve the invalid message and fake secret in checked history.
-No local hook was disabled and no delivery-branch history was rewritten.
+D33 explains their isolated-PR method: reverts preserve the invalid message
+in checked history. Those proofs disabled no local hooks. D34 below supersedes
+D33 for the fake-key proof only; no delivery-branch history was rewritten.
 
-The hosted fake-key proof is pending explicit owner approval after automatic
-approval review rejected publishing credential-shaped test data to a public
-branch/PR. No fake credential was published by that attempt. The first local sequential
-alphabet fixture was not detected. A replacement is constructed from SHA-256
-of the public label `task05-public-nonfunctional-fixture`, truncated to 36 hex
-characters with the provider prefix. It was never issued by a provider, and
-pinned gitleaks rejected it locally (exit 1, one finding, redacted output).
-That is a local proof only; public publication still awaits approval.
-The complete implementation at `f7e6b2d` is green in
-[CI run 43356547016](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43356547016).
-The PR checks show the status of subsequent evidence-only commits.
+The owner subsequently authorized one generic fake-key proof directly on PR #5
+(D34), overriding the isolated-branch method for that case. Commit
+`53460693ce332f2814cfd29c92267b0cb2fa7584` contained one freshly invented,
+never-valid random hex value assigned to `api_key` in `ci-secret-proof.txt`.
+It used no provider-specific format. Its commit message labels it a test
+fixture, and the single explicitly permitted `git commit --no-verify` was
+used only for that commit. Pre-push checks remained enabled.
+
+[Hosted CI run 43363169017](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43363169017)
+passed format/lint/types/tests/lock, then failed in `mise run secrets` with
+one leak and exit 1. The fixture was immediately reverted and pushed in
+`22246f4`; no fixture file remains in the working tree. All three hosted
+negative proofs now have run links. No real credential was used.
+
+The all-history scan correctly still detects this exact historical finding:
+
+```text
+53460693ce332f2814cfd29c92267b0cb2fa7584:ci-secret-proof.txt:generic-api-key:2
+```
+
+A proposed `.gitleaksignore` entry was tested using a temporary ignore file,
+without changing the repository's scanner policy. The historical scan passed
+with that one fingerprint excluded; reintroducing the same fixture in a
+working-tree scan still failed. Approval for that exact historical exception
+is pending; D34 did not authorize it. Until resolved, current-head CI remains
+red even though the fixture has been reverted. The [post-revert check output](05-post-proof-check.txt)
+records 90 passing tests and the expected sole history-scan failure.
+
+The implementation before the proof was green in
+[CI run 43361875700](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43361875700)
+at `d911435` (32 seconds). This is historical evidence, not a current-head pass.
 
 ## Q20: files-only equals full bump
 
@@ -143,9 +163,9 @@ replace a queued release. It now includes `${{ github.sha }}` so only retries
 of the same commit share the group. D31–D33 and the plan record the implementation
 and scope adjustments.
 
-The AGENTS.md change lacks a hosted head-SHA `agent-evals` run: task 06 supplies
-that workflow. D30 exempts PR #4 only, so this remains a REVIEW.md major until
-the owner grants a separate exception or eval evidence is available.
+D35 records the owner's temporary hosted head-SHA `agent-evals` exception for
+PR #5 until after task 06 completes. Offline evidence remains required, no
+hosted eval pass is claimed, and all other review requirements still apply.
 The owner confirmed starter-bot creation with public App ID `5738669` and
 added it to `mise.toml`. Read-only GitHub CLI metadata checks confirmed:
 
@@ -155,11 +175,14 @@ Actions secret STARTER_BOT_APP_KEY is present
 ```
 
 No secret value was accessed. The workflow already reads these Actions
-settings. Installation scope/permissions still need owner confirmation: the
-installation API returned HTTP 403 because the available token is not a
-GitHub App user access token. No authenticated release run is claimed.
+settings. The owner confirmed the App is installed on this repository only
+in Prompt 06. The earlier API lookup was unavailable (HTTP 403); installation
+is owner-confirmed, not independently API-verified. No authenticated release
+run is claimed. The owner reaffirmed `@darylwalsh` for CODEOWNERS.
 Human approval is still required; this evidence is not merge authorization.
 
 Independent review findings and their disposition are also recorded in
 [the PR review comment](https://github.com/darylwalsh/thawktu-umasa/pull/5#issuecomment-6842583045).
-The PR remains a draft with the three owner/acceptance gates above open.
+The earlier approval/installation findings are resolved by the owner's
+explicit instructions. The exact historical fixture exception remains open;
+the PR stays a draft until current-head CI is green and review is updated.
