@@ -181,10 +181,17 @@ is owner-confirmed, not independently API-verified. No authenticated release
 run is claimed. The owner reaffirmed `@darylwalsh` for CODEOWNERS.
 Human approval is still required; this evidence is not merge authorization.
 
-Independent review findings and their disposition are also recorded in
-[the PR review comment](https://github.com/darylwalsh/thawktu-umasa/pull/5#issuecomment-6842583045).
-The earlier approval/installation findings and historical fixture disposition
-are resolved by the owner's explicit instructions (D34–D36). Current-head CI
-and the final independent review are recorded on PR #5. Once final-head CI
-is green, human code-owner approval remains the merge gate; no merge is
-authorized by this report.
+The [final implementation review](https://github.com/darylwalsh/thawktu-umasa/pull/5#issuecomment-6844517629)
+supersedes the earlier open findings. Separate standards and spec sessions
+reported `blocker=0 major=0 minor=0 note=0`, verdict `approve`.
+[CI at implementation head 82e22d8](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43368565962)
+passed in 23 seconds. The hosted PR Agent also
+[completed successfully](https://github.com/darylwalsh/thawktu-umasa/actions/runs/43368711031)
+and reported no major/security issues or code suggestions through that head.
+This PR Agent review is separate from the task 06 hosted eval suite.
+
+The [task 05 handoff](../handoff-05.md) records the session-close state and
+resume prerequisites. The documentation handoff has a separate
+[local check log](05-handoff-check.txt); its head-specific CI and independent
+review are recorded on PR #5. Human code-owner approval remains required;
+no merge is authorized by this report.

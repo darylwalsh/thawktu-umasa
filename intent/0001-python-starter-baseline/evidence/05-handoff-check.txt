@@ -1,0 +1,52 @@
+[fmt:check] $ uv run --locked ruff format --check .
+52 files already formatted
+[lint] $ uv run --locked ruff check .
+All checks passed!
+[typecheck] $ uv run --locked pyright
+0 errors, 0 warnings, 0 informations
+[test] $ uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/daryl/sonar-thawktu-umasa/main
+configfile: pyproject.toml
+testpaths: tests
+plugins: socket-0.8.1, cov-7.1.0
+collected 90 items
+
+tests/scripts/test_check_fnox.py ....................                    [ 22%]
+tests/scripts/test_guard_symlink_traversal.py .                          [ 23%]
+tests/scripts/test_hooks.py ............................................ [ 72%]
+.....                                                                    [ 77%]
+tests/scripts/test_scan_secrets.py ....                                  [ 82%]
+tests/scripts/test_secret_policy.py ....                                 [ 86%]
+tests/test_main.py ..                                                    [ 88%]
+tests/test_models.py .........                                           [ 98%]
+tests/test_network.py .                                                  [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.15.2-final-0 ________________
+
+Name                             Stmts   Miss Branch BrPart  Cover   Missing
+----------------------------------------------------------------------------
+.claude/hooks/format_edited.py      26      1     12      1    95%   61
+.claude/hooks/guard_paths.py        44      1     24      1    97%   81
+.claude/hooks/hook_input.py         27      0     14      0   100%
+scripts/check_fnox.py               58      1     22      1    98%   84
+scripts/scan_secrets.py             32      1     14      1    96%   51
+src/python_starter/__init__.py       2      0      0      0   100%
+src/python_starter/__main__.py       5      0      2      1    86%   11->exit
+src/python_starter/models.py        14      0      2      0   100%
+----------------------------------------------------------------------------
+TOTAL                              208      4     90      5    97%
+Required test coverage of 95.0% reached. Total coverage: 96.98%
+============================== 90 passed in 1.20s ==============================
+[lock:check] $ uv lock --check
+Resolved 19 packages in 0.45ms
+[secrets] $ uv run --locked python scripts/scan_secrets.py
+12:05AM INF 30 commits scanned.
+12:05AM INF scanned ~4212779 bytes (4.21 MB) in 290ms
+12:05AM INF no leaks found
+12:05AM INF scanned ~347882 bytes (347.88 KB) in 28.9ms
+12:05AM INF no leaks found
+[secrets:check] $ uv run --locked python scripts/check_fnox.py
+fnox: all shared values are age ciphertext (no decryption required)

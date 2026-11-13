@@ -161,9 +161,9 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   head-SHA `agent-evals` requirement until after task 06 is completed (D30).
   Offline/native proofs remain the available evidence during the exception;
   other review requirements and human code-owner approval still apply.
-- Current session-close state and resume steps are in the
-  [task 04 handoff](handoff-04.md). PR #4 is ready for owner review, with the
-  automated staged-secret-scan ordering finding still open; D30 does not waive it.
+- The [task 04 handoff](handoff-04.md) preserves its earlier session-close
+  state, before the staged-secret-scan ordering finding was resolved and PR #4
+  merged. Use the task 05 handoff below for current resume instructions.
 
 - Task 04 merged into `dev` in PR #4 at `6f8b9b7`; its last change serialized
   pre-commit jobs. The task 04 handoff describes the earlier review state.
@@ -188,3 +188,7 @@ taste. The task that needs each one stops and asks if it isn't done yet.
   proof links are recorded. Final checks and independent review accompany PR #5.
 - The owner reaffirmed `@darylwalsh` for CODEOWNERS after the Prompt 06 team
   name was clarified against this personal repository.
+- Task 05 is ready for owner review, with no outstanding implementation
+  findings. Before resuming, read the [task 05 handoff](handoff-05.md) and
+  verify the live PR head and checks. Task 06 remains unstarted; its human
+  gates still apply. PR #5 has not been merged by the agent.

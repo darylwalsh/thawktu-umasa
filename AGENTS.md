@@ -58,7 +58,8 @@ For documentation changes, also check whitespace and links. Report unavailable c
 ## Active work
 
 Read `intent/0001-python-starter-baseline/intent.md`, `spec.md`, `plan.md`, `decisions.md`, and the assigned numbered task. Follow `intent/README.md` for new work folders.
-Tasks 02–04 merged into `dev`; task 05 is on `task-05-ci-release` in [PR #5](https://github.com/darylwalsh/thawktu-umasa/pull/5), targeting `dev`.
+Tasks 02–04 merged into `dev`; task 05 is ready for owner review on `task-05-ci-release` in [PR #5](https://github.com/darylwalsh/thawktu-umasa/pull/5), targeting `dev`.
+Before resuming PR #5 or starting task 06, read the [task 05 handoff](intent/0001-python-starter-baseline/handoff-05.md) and verify the current PR head, checks and review state. Task 06 remains unstarted and has owner prerequisites.
 CI mirrors `mise run setup` and `mise run check`, plus Commitizen validation of the PR commit range.
 To cut a release after the workflows reach `main`, dispatch **Prepare release PR** on `main`, review the generated version/changelog PR, and squash merge with its `chore(release):` title intact. The post-merge workflow tags that SHA and creates the GitHub Release. See [GitHub setup](docs/github-setup.md) for owner settings and recovery.
 Human code-owner approval remains required. Hosted agent evals arrive in task 06; D30 covers PR #4 and D35 grants PR #5 the same temporary hosted-eval exception until after task 06 completes. Offline evidence remains required.
